@@ -47,59 +47,21 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Bootstrap Modal Form  -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Add a new user</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Full Name:</label>
-                                            <input type="text" class="form-control" id="name">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Username:</label>
-                                                    <input type="text" class="form-control" id="name">
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="col-form-label">Password:</label>
-                                                    <input type="text" class="form-control" id="name">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Position:</label>
-                                            <select class="form-control">
-                                                <option value="">Select An option</option>
-                                                <option value="Waiter">Waiter</option>
-                                                <option value="Admin">Admin</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Add User</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">User Management</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#exampleModal"><i
-                        class="fas fa-user-plus fa-sm text-white-50"></i> Add User</a>
+                        <h1 class="h3 mb-0 text-gray-800">Menu Master</h1>
+                        <div>
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> 
+                                Add Food item
+                            </a>
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> 
+                                Add Accompaniment
+                            </a>
+                        </div>
+                        <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-user-plus fa-sm text-white-50"></i> Add Food item</a> -->
                     </div>
 
                     <!-- Content Row -->
@@ -112,11 +74,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total User</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40</div>
+                                                Total Earnings</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">&#8373;40,000</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                                            <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -130,11 +92,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Adminitrators</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                                Food Items</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user-shield fa-2x text-gray-300"></i>
+                                            <i class="fas fa-store fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -143,16 +105,16 @@
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-danger shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Total Waiters</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                Least Sold Item</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rice</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                            <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -166,11 +128,11 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Highest Sales</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Mina Dankwah</div>
+                                                Most Sold Item</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Banku</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-user-crown fa-2x text-gray-300"></i>
+                                            <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -187,16 +149,14 @@
                         
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Food Item</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Name</th>
-                                                    <th>Role</th>
                                                     <th>Added By</th>
                                                     <th>Date Created</th>
                                                     <th>Action</th>
@@ -204,9 +164,7 @@
                                             </thead>
                                             <tfoot>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Name</th>
-                                                    <th>Role</th>
                                                     <th>Added By</th>
                                                     <th>Date Created</th>
                                                     <th>Action</th>
@@ -214,9 +172,7 @@
                                             </tfoot>
                                             <tbody>
                                                 <tr>
-                                                    <td>CI-1</td>
-                                                    <td>Josh Pong</td>
-                                                    <td>Waiter</td>
+                                                    <td>Banku</td>
                                                     <td>Mina Dankwah</td>
                                                     <td>12-AUG-2021</td>
                                                     <td>
@@ -230,14 +186,12 @@
                                                             <span class="icon text-white-50">
                                                                 <i class="fas fa-trash"></i>
                                                             </span>
-                                                            <span class="text">Suspend</span>
+                                                            <span class="text">Delete</span>
                                                         </a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>CI-2</td>
-                                                    <td>Isaac Reeves</td>
-                                                    <td>Waiter</td>
+                                                    <td>Rice</td>
                                                     <td>Mina Dankwah</td>
                                                     <td>12-AUG-2021</td>
                                                     <td>
@@ -251,7 +205,7 @@
                                                             <span class="icon text-white-50">
                                                                 <i class="fas fa-trash"></i>
                                                             </span>
-                                                            <span class="text">Suspend</span>
+                                                            <span class="text">Delete</span>
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -260,7 +214,95 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
+
+                    </div>
+
+                    <!-- Content Row -->
+
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
+
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Accompaniments</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Food Item</th>
+                                                    <th>Added By</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Food Item</th>
+                                                    <th>Added By</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Okro Stew and Tilapia</td>
+                                                    <td>Banku</td>
+                                                    <td>Josh Pong</td>
+                                                    <td>12-AUG-2021</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-warning btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-edit"></i>
+                                                            </span>
+                                                            <span class="text">Modiy</span>
+                                                        </a>
+                                                        <a href="#" class="btn btn-danger btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Delete</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tomato Stew and Chicken</td>
+                                                    <td>Rice</td>
+                                                    <td>Mina Dankwah</td>
+                                                    <td>12-AUG-2021</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-warning btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-edit"></i>
+                                                            </span>
+                                                            <span class="text">Modiy</span>
+                                                        </a>
+                                                        <a href="#" class="btn btn-danger btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Delete</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
                     <!-- Content Row -->
