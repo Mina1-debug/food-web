@@ -1,4 +1,9 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
-  $('#dataTable').DataTable();
+  try{
+    $('#dataTable').DataTable();
+    $('#dataTable2').DataTable();
+  } catch(e) {
+    console.log(e);
+  }
 });
