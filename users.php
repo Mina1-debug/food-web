@@ -44,11 +44,73 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <!-- Modal Form for Users -->
+                    <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="add_user_label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="add_user_label">Add A User</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="form-group col-lg-6">
+                                                <label for="first_name" class="col-form-label">First Name:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input type="text" name="first_name" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="last_name" class="col-form-label">Last Name:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input type="text" name="last_name" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group col-lg-6">
+                                                <label for="username" class="col-form-label">Username:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input type="text" name="username" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-group col-lg-6">
+                                                <label for="first_name" class="col-form-label">First Name:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input type="text" name="first_name" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Add user</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Modal Form -->
+
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">User Management</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fas fa-user-plus fa-sm text-white-50"></i> Add User</a>
+                        <a href="" data-toggle="modal" data-target="#add_user" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-user-plus fa-sm text-white-50" ></i> Add User</a>
                     </div>
 
                     <!-- Content Row -->
