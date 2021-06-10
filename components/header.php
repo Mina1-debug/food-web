@@ -43,7 +43,11 @@ if(isset($_SESSION['user_details'])) {
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $user->first_name . ' ' . $user->last_name?></span>
+=======
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+>>>>>>> 330e98eb845c1fae495b2ca786cfce84c0f6b5de
                 <img class="img-profile rounded-circle"
                     src="images/undraw_profile.svg">
             </a>
@@ -73,6 +77,7 @@ if(isset($_SESSION['user_details'])) {
     </ul>
 
 </nav>
+<<<<<<< HEAD
 
    <!-- Logout Modal-->
    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -93,3 +98,5 @@ if(isset($_SESSION['user_details'])) {
             </div>
         </div>
     </div>
+=======
+>>>>>>> 330e98eb845c1fae495b2ca786cfce84c0f6b5de
