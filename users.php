@@ -280,6 +280,7 @@ if(!isset($_SESSION['user_details'])) {
 
                                                         $_query = mysqli_query($conn, "SELECT * FROM users WHERE id = '$row->added_by'");
                                                         $added_by = (object)mysqli_fetch_array($_query);
+                                                        
 
                                                         echo '
                                                             <tr>
@@ -295,15 +296,15 @@ if(!isset($_SESSION['user_details'])) {
                                                                         </span>
                                                                         <span class="text">Modiy</span>
                                                                     </a>
-                                                                    <a action-type="delete_user" data="'. $row->id .'" href="#" class="btn btn-danger btn-icon-split btn-action">
+                                                                    ' . ($row->id != $_SESSION['user_details']['id'] ? '<a action-type="delete_user" data="'. $row->id .'" href="#" class="btn btn-danger btn-icon-split btn-action">
                                                                         <span class="icon text-white-50">
                                                                             <i class="fas fa-trash"></i>
                                                                         </span>
                                                                         <span class="text">Suspend</span>
                                                                     </a>
                                                                 </td>
-                                                            </tr>
-                                                        ';
+                                                            </tr>' : '')
+                                                        ;
                                                     }
                                                 
                                                 ?>

@@ -5,6 +5,12 @@ $(document).ready(function () {
         $(".error_info[input-name='" + $(this).attr("name") + "']").text("");
     });
 
+    $(document).on('change', '.custom-file-input', function(){
+        var fileName = $(this).val();
+        $(this).next('.custom-file-label').html(fileName);
+    })
+
+
     $(document).on("click", "a[data-target='#add_user']", function (e) {
         e.preventDefault();
 

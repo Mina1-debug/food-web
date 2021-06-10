@@ -259,9 +259,142 @@ if(isset($_POST['action'])) {
             "data" => []
         ]));
     } else if ($_POST['action'] == "add_food") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
+
+        foreach ($_POST as $key => $value) {
+            if(empty(trim($value))) {
+                $error_handler['status'] = "MISSING_PARAMETERS";
+                $error_handler['message'] = "Some required field were left empty";
+                array_push($error_handler['data'], [
+                    $key, "This field is required"
+                ]);
+            }
+        }
+
+        if(!empty($error_handler['status'])) {
+            exit(json_encode($error_handler));
+        }
+
+        $sql = "SELECT * FROM food WHERE name = '$food_name'";
+        $query = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($query);
+
+        if($count >= 1) {
+            exit(json_encode([
+                "status" => "FOOD_EXIST",
+                "message" => "Food item already exist!!",
+                "data" => []
+            ]));
+        }
+
+        $new_filename = "";
+        if(isset($_FILES['food_image']) && !empty($_FILES['food_image']['name'])) {
+            $file = $_FILES['food_image'];
+            $filename = $file['name'];
+            $type = $file['type'];
+            $source = $file['tmp_name'];
+            $new_filename = time() . "." . explode(".", $filename)[1];
+
+            if(!in_array(explode("/", $type)[1], ["jpeg", "jpg", "png"])) {
+                exit(json_encode([
+                    "status" => "INVALID_FILE",
+                    "message" => "Selected file is not supported",
+                    "data" => ["food_image", "Invalid file type. Only supports jpeg, jpg & png"]
+                ]));
+            }
+
+            if(!move_uploaded_file($source, "../images/uploads/food_$new_filename")) {
+                exit(json_encode([
+                    "status" => "FILE_UPLOAD_FAILED",
+                    "message" => "Your profile picture could not be uploaded",
+                    "data" => []
+                ]));
+            }
+        }
+
+        $admin_id = $_SESSION['user_details']['id'];
+        $sql = "INSERT INTO foods (name, image, added_by) VALUES ('$food_name', '$new_filename', '$admin_id')";
+        
+        if(mysqli_query($conn, $sql)) {
+            exit(json_encode([
+                "status" => "OK",
+                "message" => "Food added successfully",
+                "data" => []
+            ]));
+        }
     
     } else if ($_POST['action'] == "add_accompaniment") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
 
+        foreach ($_POST as $key => $value) {
+            if(empty(trim($value))) {
+                $error_handler['status'] = "MISSING_PARAMETERS";
+                $error_handler['message'] = "Some required field were left empty";
+                array_push($error_handler['data'], [
+                    $key, "This field is required"
+                ]);
+            }
+        }
+
+        if(!empty($error_handler['status'])) {
+            exit(json_encode($error_handler));
+        }
+
+        $sql = "SELECT * FROM accompaniment WHERE name = '$accompaniment_name' AND food_id = '$food_item'";
+        $query = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($query);
+
+        if($count >= 1) {
+            exit(json_encode([
+                "status" => "ACCOMPANIMENT_EXIST",
+                "message" => "Accompaniment with this food item already exist!!",
+                "data" => []
+            ]));
+        }
+
+        $new_filename = "";
+        $file = $_FILES['accompaniment_image'];
+        if(isset($file) && !empty($file['name'])) {
+            $filename = $file['name'];
+            $type = $file['type'];
+            $source = $file['tmp_name'];
+            $new_filename = time() . "." . explode(".", $filename)[1];
+
+            if(!in_array(explode("/", $type)[1], ["jpeg", "jpg", "png"])) {
+                exit(json_encode([
+                    "status" => "INVALID_FILE",
+                    "message" => "Selected file is not supported",
+                    "data" => ["accompaniment_image", "Invalid file type. Only supports jpeg, jpg & png"]
+                ]));
+            }
+
+            if(!move_uploaded_file($source, "../images/uploads/accompaniment_$new_filename")) {
+                exit(json_encode([
+                    "status" => "FILE_UPLOAD_FAILED",
+                    "message" => "Your profile picture could not be uploaded",
+                    "data" => []
+                ]));
+            }
+        }
+
+        $admin_id = $_SESSION['user_details']['id'];
+        $sql = "INSERT INTO accompaniment (name, image, food_id, added_by) VALUES ('$accompaniment_name', '$new_filename', '$food_item', '$admin_id')";
+        var_dump($sql);   
+        if(mysqli_query($conn, $sql)) {
+            exit(json_encode([
+                "status" => "OK",
+                "message" => "Accompaniment added successfully",
+                "data" => []
+            ]));
+        }
     }
 }
 

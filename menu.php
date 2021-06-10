@@ -18,6 +18,9 @@
     <!-- Datatable StyleSheet -->
     <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
 
+    <!-- Datatable StyleSheet -->
+    <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
+
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -51,11 +54,11 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Menu Master</h1>
                         <!-- Button trigger modal -->
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#em">
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#add_accompaniment">
                             <i class="fas fa-plus fa-sm text-white-50"></i> 
                             Add Accompaniment
                         </button>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#add_food">
                             <i class="fas fa-plus fa-sm text-white-50"></i> 
                             Add Food item
                         </button>
@@ -63,106 +66,111 @@
 
                     <div class="row">
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="add_food" tabindex="-1" role="dialog" aria-labelledby="add_food" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Food Item</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="password" class="col-form-label">Food name:</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                                <form action-type="add_food">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Food Item</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action-type="add_food">
+                                                <div class="form-group">
+                                                    <label for="food_name" class="col-form-label">Food name:</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                                                        </div>
+                                                        <input type="text" name="food_name" class="form-control">
                                                     </div>
-                                                    <input type="text" name="password" class="form-control">
+                                                    <i class="text_sm text-info error_info" input-name="food_name"></i>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="form-group col-lg-6">
-                                                    <label for="recipient-name" class="col-form-label">Food Image:</label>
-                                                    <div class="input-group mb-3">
+                                                <div class="form-group">
+                                                    <label for="food_image" class="col-form-label">Food Image:</label>
+                                                    <div class="input-group">
                                                         <div class="custom-file">
-                                                            <input name="profile" type="file" class="custom-file-input" id="inputGroupFile03">
-                                                            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                                            <input name="food_image" type="file" class="custom-file-input" id="food_image">
+                                                            <label class="custom-file-label" for="food_image">Choose file</label>
                                                         </div>
                                                     </div>
+                                                    <i class="text_sm text-info error_info" input-name="food_image"></i>
                                                 </div>
-                                                
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Add Food item</button>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Add Food item</button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="em" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                    <div class="modal fade" id="add_accompaniment" tabindex="-1" role="dialog" aria-labelledby="add_accompaniment" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="em">Accompaniment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="password" class="col-form-label">Name of accompaniment:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                            <form action-type="add_accompaniment">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="em">Accompaniment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action-type="add_accompaniment">
+                                            <div class="form-group">
+                                                <label for="accompaniment_name" class="col-form-label">Name of accompaniment:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                                                    </div>
+                                                    <input type="text" name="accompaniment_name" class="form-control">
                                                 </div>
-                                                <input type="text" name="password" class="form-control">
+                                                <i class="text_sm text-info error_info" input-name="accompaniment_name"></i>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password" class="col-form-label">Food item:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                                            <div class="form-group">
+                                                <label for="food_item" class="col-form-label">Food Item:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-soup"></i></span>
+                                                    </div>
+                                                    <select name="food_item" class="form-control">
+                                                        <?php
+                                                            $sql = "SELECT * FROM foods";
+                                                            $query = mysqli_query($conn, $sql);
+                                                            
+                                                            echo '<option value="">Select an Option</option>';
+                                                            while($row = mysqli_fetch_array($query)) {
+                                                                echo '<option value="' . $row['id'] . '">'. $row['name'] .'</option>';
+                                                            }
+                                                        ?>
+                                                    </select>                                            
                                                 </div>
-                                                <input type="text" name="password" class="form-control">
+                                                <i class="text_sm text-info error_info" input-name="food_item"></i>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password" class="col-form-label">Added by:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-soup"></i></span>
-                                                </div>
-                                                <input type="text" name="password" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-6">
-                                                <label for="recipient-name" class="col-form-label">Food Image:</label>
+                                            <div class="form-group">
+                                                <label for="accompaniment_image" class="col-form-label">Accompaniment Image:</label>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
-                                                        <input name="profile" type="file" class="custom-file-input" id="inputGroupFile03">
-                                                        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                                        <input name="accompaniment_image" type="file" class="custom-file-input" id="accompaniment_image">
+                                                        <label class="custom-file-label" for="accompaniment_image">Choose file</label>
                                                     </div>
                                                 </div>
+                                                <i class="text_sm text-info error_info" input-name="accompaniment_image"></i>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Add Accompaniment</button>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Add Accompaniment</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
  
@@ -446,6 +454,9 @@
     <!-- FontAwesome JavaScript -->
     <script defer src="lib/font-awesome-pro/js/pro.js"></script> 
 
+    <!-- SweetAlert JavaScript -->
+    <script src="lib/sweetalert2/sweetalert2.js"></script> 
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
 
@@ -458,6 +469,7 @@
     <script src="js/chart-area-demo.js"></script>
     <script src="js/chart-pie-demo.js"></script>
     <script src="js/datatables-demo.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 
