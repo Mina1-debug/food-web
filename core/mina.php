@@ -27,7 +27,7 @@ if(isset($_POST['action'])) {
         $query = mysqli_query($conn, $sql);
         $results = mysqli_fetch_array($query);
 
-        if(count($results) < 1) {
+        if(mysqli_num_rows($query) < 1) {
             exit(json_encode([
                 "status" => "NO_USER",
                 "message" => "User account does not exist!!",
@@ -50,16 +50,222 @@ if(isset($_POST['action'])) {
             ]));
         }
 
+    } else if($_POST['action'] == "logout") {
+        unset($_SESSION['user_details']);
         exit(json_encode([
-            "status" => "UNKNOWN_ERROR",
-            "message" => "An unknown error occurred, Please try again later!!"
+            "status" => "OK",
+            "message" => "Your have logged out successfully",
+            "data"=> []
         ]));
 
-    } else if($_POST['action'] == "add_user") {
+    } else if($_POST['action'] == "get_user") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
 
+        foreach ($_POST as $key => $value) {
+            if(empty(trim($value))) {
+                $error_handler['status'] = "MISSING_PARAMETERS";
+                $error_handler['message'] = "Could not fetch user info";
+                $error_handler['data'] = [];
+            }
+        }
+
+        if(!empty($error_handler['status'])) {
+            exit(json_encode($error_handler));
+        }
+
+        $sql = "SELECT * FROM users WHERE id = '$id' LIMIT 1";
+        $query = mysqli_query($conn, $sql);
+
+        if(mysqli_num_rows($query) < 1) {
+            exit(json_encode([
+                "status" => "NO_USER",
+                "message" => "No user exist with selected parameters",
+                "data"=> []
+            ]));
+        } else {
+            exit(json_encode([
+                "status" => "OK",
+                "message" => "User details fetch was successfully",
+                "data"=> mysqli_fetch_array($query)
+            ]));
+        }
+
+    } else if($_POST['action'] == "add_user") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
+
+        foreach ($_POST as $key => $value) {
+            if(empty(trim($value))) {
+                $error_handler['status'] = "MISSING_PARAMETERS";
+                $error_handler['message'] = "Some required field were left empty";
+                array_push($error_handler['data'], [
+                    $key, "This field is required"
+                ]);
+            }
+        }
+
+        if(!empty($error_handler['status'])) {
+            exit(json_encode($error_handler));
+        }
+
+        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $query = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($query);
+
+        if($count >= 1) {
+            exit(json_encode([
+                "status" => "USER_EXIST",
+                "message" => "User account already exist!!",
+                "data" => []
+            ]));
+        }
+
+        $new_filename = "";
+        if(isset($_FILES['profile_image']) && !empty($_FILES['profile_image']['name'])) {
+            $filename = $_FILES['profile_image']['name'];
+            $type = $_FILES['profile_image']['type'];
+            $source = $_FILES['profile_image']['tmp_name'];
+            $new_filename = time() . "." . explode(".", $filename)[1];
+
+            if(!in_array(explode("/", $type)[1], ["jpeg", "jpg", "png"])) {
+                exit(json_encode([
+                    "status" => "INVALID_FILE",
+                    "message" => "Selected file is not supported",
+                    "data" => ["profile_iamge", "Invalid file type. Only supports jpeg, jpg & png"]
+                ]));
+            }
+
+            if(!move_uploaded_file($source, "../images/uploads/" . $new_filename)) {
+                exit(json_encode([
+                    "status" => "FILE_UPLOAD_FAILED",
+                    "message" => "Your profile picture could not be uploaded",
+                    "data" => []
+                ]));
+            }
+        }
+
+        $admin_id = $_SESSION['user_details']['id'];
+        $password = md5($password);
+        $sql = "INSERT INTO users (first_name, last_name, username, password, profile_image, role, added_by) VALUES ('$first_name', '$last_name', '$username', '$password', '$new_filename', '$role', '$admin_id')";
+        
+        if(mysqli_query($conn, $sql)) {
+            exit(json_encode([
+                "status" => "OK",
+                "message" => "User added successfully",
+                "data" => []
+            ]));
+        }
+
+    } else if($_POST['action'] == "update_user") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
+
+        foreach ($_POST as $key => $value) {
+            if(empty(trim($value))) {
+                $error_handler['status'] = "MISSING_PARAMETERS";
+                $error_handler['message'] = "Some required field were left empty";
+                array_push($error_handler['data'], [
+                    $key, "This field is required"
+                ]);
+            }
+        }
+
+        if(!empty($error_handler['status'])) {
+            exit(json_encode($error_handler));
+        }
+
+        $sql = "SELECT * FROM users WHERE id = '$id' LIMIT 1";
+        $query = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($query);
+        $results = mysqli_fetch_array($query);
+
+        if($count < 1) {
+            exit(json_encode([
+                "status" => "USER_DOES_NOT_EXIST",
+                "message" => "User account does not exist!!",
+                "data" => []
+            ]));
+        }
+
+        $new_filename = "";
+        if(isset($_FILES['profile_image']) && !empty($_FILES['profile_image']['name'])) {
+            $filename = $_FILES['profile_image']['name'];
+            $type = $_FILES['profile_image']['type'];
+            $source = $_FILES['profile_image']['tmp_name'];
+            $new_filename = time() . "." . explode(".", $filename)[1];
+
+            if(!in_array(explode("/", $type)[1], ["jpeg", "jpg", "png"])) {
+                exit(json_encode([
+                    "status" => "INVALID_FILE",
+                    "message" => "Selected file is not supported",
+                    "data" => ["profile_iamge", "Invalid file type. Only supports jpeg, jpg & png"]
+                ]));
+            }
+
+            if(!move_uploaded_file($source, "../images/uploads/" . $new_filename)) {
+                exit(json_encode([
+                    "status" => "FILE_UPLOAD_FAILED",
+                    "message" => "Your profile picture could not be uploaded",
+                    "data" => []
+                ]));
+            }
+        } else {
+            $new_filename = $results['profile_image'];
+        }
+
+        $admin_id = $_SESSION['user_details']['id'];
+        if($results['password'] != $password) $password = md5($password);
+        $sql = "UPDATE users SET first_name = '$first_name', last_name = '$last_name', username = '$username', password = '$password', profile_image = '$new_filename', role = '$role' WHERE id = '$id'";
+        
+        if(mysqli_query($conn, $sql)) {
+            exit(json_encode([
+                "status" => "OK",
+                "message" => "User updated successfully",
+                "data" => []
+            ]));
+        }
+
+    } else if($_POST['action'] == "delete_user") {
+        if(isset($_POST['id'])) {
+            $sql = "DELETE FROM users WHERE id = '$id'";
+            if(mysqli_query($conn, $sql)) {
+                exit(json_encode([
+                    "status" => "OK",
+                    "message" => "User deleted successfully",
+                    "data" => []
+                ]));
+            } else {
+                exit(json_encode([
+                    "status" => "FAILED",
+                    "message" => "User could not be deleted",
+                    "data" => []
+                ]));
+            }
+        }
+
+        exit(json_encode([
+            "status" => "ERROR",
+            "message" => "User identifier parameter missing",
+            "data" => []
+        ]));
     } else if ($_POST['action'] == "add_food") {
     
     } else if ($_POST['action'] == "add_accompaniment") {
 
     }
 }
+
+exit(json_encode([
+    "status" => "UNKNOWN_ERROR",
+    "message" => "An unknown error occurred, Please try again later!!"
+]));

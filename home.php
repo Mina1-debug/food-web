@@ -56,8 +56,8 @@ if(!isset($_SESSION['user_details'])) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="components/process/user_process.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-sign-in-alt fa-sm text-white-50"></i> logout</a>
+                        <!-- <a href="components/process/user_process.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-sign-in-alt fa-sm text-white-50"></i> logout</a> -->
                     </div>
 
                     <!-- Content Row -->

@@ -50,81 +50,74 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Menu Master</h1>
-                        <div>
-                
-                          <!-- Button trigger modal -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#em">
+                            <i class="fas fa-plus fa-sm text-white-50"></i> 
+                            Add Accompaniment
+                        </button>
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fas fa-plus fa-sm text-white-50"></i> 
+                            Add Food item
+                        </button>
+                    </div>
 
-
-                          <div class="row">
-                           <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#exampleModal">
-                           <i class="fas fa-plus fa-sm text-white-50"></i> 
-                                Add Food item
-                             </button>
-
-                             <!-- Modal -->
-                           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                 <div class="modal-content">
-                                       <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Food Item</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                               <span aria-hidden="true">&times;</span>
-                             </button>
-                               </div>
-                            <div class="modal-body">
-                                      <form>
-                                        <div class="form-group">
-                                            <label for="password" class="col-form-label">Food name:</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                    <div class="row">
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Food Item</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="password" class="col-form-label">Food name:</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-soup"></i></span>
+                                                    </div>
+                                                    <input type="text" name="password" class="form-control">
                                                 </div>
-                                                <input type="text" name="password" class="form-control">
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-lg-6">
-                                                <label for="recipient-name" class="col-form-label">Food Image:</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="custom-file">
-                                                        <input name="profile" type="file" class="custom-file-input" id="inputGroupFile03">
-                                                        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                            <div class="row">
+                                                <div class="form-group col-lg-6">
+                                                    <label for="recipient-name" class="col-form-label">Food Image:</label>
+                                                    <div class="input-group mb-3">
+                                                        <div class="custom-file">
+                                                            <input name="profile" type="file" class="custom-file-input" id="inputGroupFile03">
+                                                            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                
                                             </div>
-                                            
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Add Food item</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Add Food item</button>
+                                    </div>
                                 </div>
                             </div>
-      </div>
-    </div>
-  </div>
-</div>
+                        </div>
+                    </div>
 
-
-                 <!-- Button trigger modal -->
-                 <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#em">
-                           <i class="fas fa-plus fa-sm text-white-50"></i> 
-                                Add Accompaniment
-                             </button>
-
-                             <!-- Modal -->
-                           <div class="modal fade" id="em" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                 <div class="modal-content">
-                                       <div class="modal-header">
-                                            <h5 class="modal-title" id="em">Accompaniment</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                               <span aria-hidden="true">&times;</span>
-                             </button>
-                               </div>
-                            <div class="modal-body">
-                                        <form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="em" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="em">Accompaniment</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
                                         <div class="form-group">
                                             <label for="password" class="col-form-label">Name of accompaniment:</label>
                                             <div class="input-group">
@@ -162,7 +155,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                         </div>
                                     </form>
                                 </div>
@@ -171,11 +163,9 @@
                                     <button type="button" class="btn btn-primary">Add Accompaniment</button>
                                 </div>
                             </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+                        </div>
+                    </div>
+ 
 
                     <!-- Content Row -->
                     <div class="row">
@@ -442,25 +432,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="lib/jquery/jquery.min.js"></script>

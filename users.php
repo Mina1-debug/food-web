@@ -1,5 +1,6 @@
 <?php
 include 'core/conn.php';
+include 'core/functions.php';
 if(!isset($_SESSION['user_details'])) {
     header("Location: index.php");
 } else {
@@ -25,6 +26,9 @@ if(!isset($_SESSION['user_details'])) {
 
     <!-- Datatable StyleSheet -->
     <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
+
+    <!-- Datatable StyleSheet -->
+    <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -58,12 +62,13 @@ if(!isset($_SESSION['user_details'])) {
                     <!-- Modal Form for Users -->
                     <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="add_user_label" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="add_user_label">Add A User</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <form>
+                            <form action-type="add_user">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="add_user_label">Add A User</h5>
+                                        <input type="hidden" name="id">
+                                    </div>
+                                    <div class="modal-body">
                                         <div class="row">
                                             <div class="form-group col-lg-6">
                                                 <label for="first_name" class="col-form-label">First Name:</label>
@@ -73,6 +78,7 @@ if(!isset($_SESSION['user_details'])) {
                                                     </div>
                                                     <input type="text" name="first_name" class="form-control">
                                                 </div>
+                                                <i class="text_sm text-info error_info" input-name="first_name"></i>
                                             </div>
                                             <div class="form-group col-lg-6">
                                                 <label for="last_name" class="col-form-label">Last Name:</label>
@@ -82,6 +88,7 @@ if(!isset($_SESSION['user_details'])) {
                                                     </div>
                                                     <input type="text" name="last_name" class="form-control">
                                                 </div>
+                                                <i class="text_sm text-info error_info" input-name="last_name"></i>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -92,6 +99,7 @@ if(!isset($_SESSION['user_details'])) {
                                                 </div>
                                                 <input type="text" name="username" class="form-control">
                                             </div>
+                                            <i class="text_sm text-info error_info" input-name="username"></i>
                                         </div>
                                         <div class="form-group">
                                             <label for="password" class="col-form-label">Password:</label>
@@ -101,16 +109,18 @@ if(!isset($_SESSION['user_details'])) {
                                                 </div>
                                                 <input type="text" name="password" class="form-control">
                                             </div>
+                                            <i class="text_sm text-info error_info" input-name="password"></i>
                                         </div>
                                         <div class="row">
                                             <div class="form-group col-lg-6">
                                                 <label for="recipient-name" class="col-form-label">Profile Image:</label>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
-                                                        <input name="profile" type="file" class="custom-file-input" id="inputGroupFile03">
+                                                        <input name="profile_image" type="file" class="custom-file-input" id="inputGroupFile03">
                                                         <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
                                                     </div>
                                                 </div>
+                                                <i class="text_sm text-info error_info" input-name="profile-image"></i>
                                             </div>
                                             <div class="form-group col-lg-6">
                                                 <label for="recipient-name" class="col-form-label">Position:</label>
@@ -118,21 +128,22 @@ if(!isset($_SESSION['user_details'])) {
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-shield"></i></span>
                                                     </div>
-                                                    <select class="form-control">
+                                                    <select name="role" class="form-control">
                                                         <option value="">Select An option</option>
                                                         <option value="Waiter">Waiter</option>
                                                         <option value="Admin">Admin</option>
                                                     </select>                                            
                                                 </div>
+                                                <i class="text_sm text-info error_info" input-name="role"></i>
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Add User</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Add User</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -145,6 +156,12 @@ if(!isset($_SESSION['user_details'])) {
 
                     <!-- Content Row -->
                     <div class="row">
+                        <?php
+                            $results = [
+                                "Admin" => mysqli_num_rows(mysqli_query($conn, "SELECT role FROM users WHERE role = 'Admin'")),
+                                "Waiter" => mysqli_num_rows(mysqli_query($conn, "SELECT role FROM users WHERE role = 'Waiter'"))
+                            ];
+                        ?>
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -154,7 +171,7 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Total User</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $results['Admin'] + $results['Waiter']?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -172,7 +189,7 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Adminitrators</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $results['Admin']?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user-shield fa-2x text-gray-300"></i>
@@ -190,7 +207,7 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total Waiters</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $results['Waiter']?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -254,48 +271,42 @@ if(!isset($_SESSION['user_details'])) {
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <tr>
-                                                    <td>CI-1</td>
-                                                    <td>Josh Pong</td>
-                                                    <td>Waiter</td>
-                                                    <td>Mina Dankwah</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Suspend</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>CI-2</td>
-                                                    <td>Isaac Reeves</td>
-                                                    <td>Waiter</td>
-                                                    <td>Mina Dankwah</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Suspend</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                <?php
+                                                    $sql = "SELECT * FROM users";
+                                                    $query = mysqli_query($conn, $sql);
+
+                                                    while($row = mysqli_fetch_array($query)) {
+                                                        $row = (object)$row;
+
+                                                        $_query = mysqli_query($conn, "SELECT * FROM users WHERE id = '$row->added_by'");
+                                                        $added_by = (object)mysqli_fetch_array($_query);
+
+                                                        echo '
+                                                            <tr>
+                                                                <td>'. $row->id .'</td>
+                                                                <td>'. $row->first_name .' '. $row->last_name .'</td>
+                                                                <td>'. $row->role .'</td>
+                                                                <td>'. ((mysqli_num_rows($_query) < 1) ? 'None' : ($added_by->first_name .' '. $added_by->last_name)) .'</td>
+                                                                <td>'. date_parser($row->date_created) .'</td>
+                                                                <td>
+                                                                    <a action-type="get_user" data="'. $row->id .'" href="#" class="btn btn-warning btn-icon-split btn-action">
+                                                                        <span class="icon text-white-50">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </span>
+                                                                        <span class="text">Modiy</span>
+                                                                    </a>
+                                                                    <a action-type="delete_user" data="'. $row->id .'" href="#" class="btn btn-danger btn-icon-split btn-action">
+                                                                        <span class="icon text-white-50">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </span>
+                                                                        <span class="text">Suspend</span>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        ';
+                                                    }
+                                                
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -328,26 +339,6 @@ if(!isset($_SESSION['user_details'])) {
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -359,7 +350,10 @@ if(!isset($_SESSION['user_details'])) {
     <script src="lib/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- FontAwesome JavaScript -->
-    <script defer src="lib/font-awesome-pro/js/pro.js"></script> 
+    <script src="lib/font-awesome-pro/js/pro.js"></script> 
+    
+    <!-- SweetAlert JavaScript -->
+    <script src="lib/sweetalert2/sweetalert2.js"></script> 
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
@@ -373,6 +367,7 @@ if(!isset($_SESSION['user_details'])) {
     <script src="js/chart-area-demo.js"></script>
     <script src="js/chart-pie-demo.js"></script>
     <script src="js/datatables-demo.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 
