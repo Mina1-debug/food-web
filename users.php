@@ -150,7 +150,7 @@ if(!isset($_SESSION['user_details'])) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">User Management</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#add_user"><i
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm modal-popup" data-toggle="modal" data-target="#add_user"><i
                         class="fas fa-user-plus fa-sm text-white-50"></i> Add User</a>
                     </div>
 
@@ -291,16 +291,14 @@ if(!isset($_SESSION['user_details'])) {
                                                                 <td>'. date_parser($row->date_created) .'</td>
                                                                 <td>
                                                                     <a action-type="get_user" data="'. $row->id .'" href="#" class="btn btn-warning btn-icon-split btn-action">
-                                                                        <span class="icon text-white-50">
+                                                                        <span class="px-2 py-1">
                                                                             <i class="fas fa-edit"></i>
                                                                         </span>
-                                                                        <span class="text">Modiy</span>
                                                                     </a>
                                                                     ' . ($row->id != $_SESSION['user_details']['id'] ? '<a action-type="delete_user" data="'. $row->id .'" href="#" class="btn btn-danger btn-icon-split btn-action">
-                                                                        <span class="icon text-white-50">
+                                                                        <span class="px-2 py-1">
                                                                             <i class="fas fa-trash"></i>
                                                                         </span>
-                                                                        <span class="text">Suspend</span>
                                                                     </a>
                                                                 </td>
                                                             </tr>' : '')
@@ -365,8 +363,8 @@ if(!isset($_SESSION['user_details'])) {
     <script src="lib/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
+    <!-- <script src="js/chart-area-demo.js"></script> -->
+    <!-- <script src="js/chart-pie-demo.js"></script> -->
     <script src="js/datatables-demo.js"></script>
     <script src="js/main.js"></script>
 

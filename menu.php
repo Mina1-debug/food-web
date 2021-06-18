@@ -1,3 +1,12 @@
+<?php 
+include 'core/conn.php';
+include 'core/functions.php';
+if(!isset($_SESSION['user_details'])) {
+    header("Location: index.php");
+} else {
+    if($_SESSION['user_details']['role'] != "Admin") header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +27,7 @@
     <!-- Datatable StyleSheet -->
     <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
 
-    <!-- Datatable StyleSheet -->
+    <!-- SweetAlert StyleSheet -->
     <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
 
     <!-- Custom styles for this template-->
@@ -51,17 +60,19 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Menu Master</h1>
                         <!-- Button trigger modal -->
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#add_accompaniment">
-                            <i class="fas fa-plus fa-sm text-white-50"></i> 
-                            Add Accompaniment
-                        </button>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#add_food">
-                            <i class="fas fa-plus fa-sm text-white-50"></i> 
-                            Add Food item
-                        </button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-2" data-toggle="modal" data-target="#add_accompaniment">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> 
+                                Add Accompaniment
+                            </button>
+                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-2" data-toggle="modal" data-target="#add_food">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> 
+                                Add Food item
+                            </button>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -72,6 +83,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Food Item</h5>
+                                            <input type="hidden" name="id">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -79,30 +91,30 @@
                                         <div class="modal-body">
                                             <form action-type="add_food">
                                                 <div class="form-group">
-                                                    <label for="food_name" class="col-form-label">Food name:</label>
+                                                    <label for="name" class="col-form-label">Food name:</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="fas fa-soup"></i></span>
                                                         </div>
-                                                        <input type="text" name="food_name" class="form-control">
+                                                        <input type="text" name="name" class="form-control">
                                                     </div>
-                                                    <i class="text_sm text-info error_info" input-name="food_name"></i>
+                                                    <i class="text_sm text-info error_info" input-name="name"></i>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="food_image" class="col-form-label">Food Image:</label>
+                                                    <label for="image" class="col-form-label">Food Image:</label>
                                                     <div class="input-group">
                                                         <div class="custom-file">
-                                                            <input name="food_image" type="file" class="custom-file-input" id="food_image">
-                                                            <label class="custom-file-label" for="food_image">Choose file</label>
+                                                            <input name="image" type="file" class="custom-file-input" id="image">
+                                                            <label class="custom-file-label" for="image">Choose file</label>
                                                         </div>
                                                     </div>
-                                                    <i class="text_sm text-info error_info" input-name="food_image"></i>
+                                                    <i class="text_sm text-info error_info" input-name="image"></i>
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Add Food item</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -117,6 +129,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="em">Accompaniment</h5>
+                                        <input type="hidden" name="id">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -124,14 +137,14 @@
                                     <div class="modal-body">
                                         <form action-type="add_accompaniment">
                                             <div class="form-group">
-                                                <label for="accompaniment_name" class="col-form-label">Name of accompaniment:</label>
+                                                <label for="name" class="col-form-label">Name of accompaniment:</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-soup"></i></span>
                                                     </div>
-                                                    <input type="text" name="accompaniment_name" class="form-control">
+                                                    <input type="text" name="name" class="form-control">
                                                 </div>
-                                                <i class="text_sm text-info error_info" input-name="accompaniment_name"></i>
+                                                <i class="text_sm text-info error_info" input-name="name"></i>
                                             </div>
                                             <div class="form-group">
                                                 <label for="food_item" class="col-form-label">Food Item:</label>
@@ -153,21 +166,12 @@
                                                 </div>
                                                 <i class="text_sm text-info error_info" input-name="food_item"></i>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="accompaniment_image" class="col-form-label">Accompaniment Image:</label>
-                                                <div class="input-group mb-3">
-                                                    <div class="custom-file">
-                                                        <input name="accompaniment_image" type="file" class="custom-file-input" id="accompaniment_image">
-                                                        <label class="custom-file-label" for="accompaniment_image">Choose file</label>
-                                                    </div>
-                                                </div>
-                                                <i class="text_sm text-info error_info" input-name="accompaniment_image"></i>
-                                            </div>
+                                         
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Add Accompaniment</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -178,33 +182,21 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Total Earnings</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Ghs 4000.00</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                          <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Food Items</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <?php
+                                                    $sql = "SELECT * FROM foods";
+                                                    $query = mysqli_query($conn, $sql);
+                                                    echo mysqli_num_rows($query);
+                                                ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-store fa-2x text-gray-300"></i>
@@ -215,14 +207,27 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-danger shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Least Sold Item</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rice</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $sql = "
+                                                    SELECT food_id, COUNT(food_id) AS `occur` 
+                                                    FROM food_payment
+                                                    GROUP BY food_id
+                                                    ORDER BY `occur` ASC
+                                                ";
+                                                $check = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+                                                $query = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$check["food_id"]}'");
+                                                $least_food = mysqli_fetch_array($query, MYSQLI_ASSOC);
+                                                echo $least_food["name"];
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
@@ -233,14 +238,27 @@
                         </div>
 
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Most Sold Item</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Banku</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $sql = "
+                                                    SELECT food_id, COUNT(food_id) AS `occur` 
+                                                    FROM food_payment
+                                                    GROUP BY food_id
+                                                    ORDER BY `occur` DESC
+                                                ";
+                                                $check = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+                                                $query = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$check["food_id"]}'");
+                                                $most_food = mysqli_fetch_array($query, MYSQLI_ASSOC);
+                                                echo $most_food['name'];
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
@@ -267,7 +285,9 @@
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
+                                                    <th>ID</th>
                                                     <th>Name</th>
+                                                    <th>Accompaniment</th>
                                                     <th>Added By</th>
                                                     <th>Date Created</th>
                                                     <th>Action</th>
@@ -275,51 +295,80 @@
                                             </thead>
                                             <tfoot>
                                                 <tr>
+                                                    <th>ID</th>
                                                     <th>Name</th>
+                                                    <th>Accompaniment</th>
                                                     <th>Added By</th>
                                                     <th>Date Created</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
-                                                <tr>
-                                                    <td>Banku</td>
-                                                    <td>Mina Dankwah</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Delete</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Rice</td>
-                                                    <td>Mina Dankwah</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Delete</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                <?php
+                                                    
+                                                    $sql = "SELECT * FROM foods";
+                                                    $query = mysqli_query($conn, $sql);
+
+                                                    $count = 0;
+                                                    while($row = mysqli_fetch_array($query)) {
+                                                        $row = (object)$row;
+
+                                                        $_query = mysqli_query($conn, "SELECT * FROM users WHERE id = '$row->added_by'");
+                                                        $added_by = (object)mysqli_fetch_array($_query);
+
+                                                        $accom = mysqli_query($conn, "SELECT * FROM accompaniment WHERE food_item = '$row->id'");
+                                                        if(mysqli_num_rows($accom) <= 0) {
+                                                            $count++;
+                                                            echo '
+                                                                <tr>
+                                                                    <td>'. $count .'</td>
+                                                                    <td>'. $row->name .'</td>
+                                                                    <td>No Accompaniment</td>
+                                                                    <td>'. $added_by->first_name .' '. $added_by->last_name .'</td>
+                                                                    <td>'. date_parser($row->date_created) .'</td>
+                                                                    <td>
+                                                                        <a action-type="get_food" data="'. $row->id .'" href="#" class="btn btn-warning btn-icon-split btn-action">
+                                                                            <span class="px-2 py-1">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                        <a action-type="delete_food" data="'. $row->id .'" href="#" class="btn btn-danger btn-icon-split btn-action">
+                                                                            <span class="px-2 py-1">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                    </td> 
+                                                                </tr>'
+                                                            ;
+                                                        }
+
+                                                        while ($accompaniment = mysqli_fetch_array($accom)) {
+                                                            $count++;
+                                                            echo '
+                                                                <tr>
+                                                                    <td>'. $count .'</td>
+                                                                    <td>'. $row->name .'</td>
+                                                                    <td>'. $accompaniment['name'] .'</td>
+                                                                    <td>'. $added_by->first_name .' '. $added_by->last_name .'</td>
+                                                                    <td>'. date_parser($row->date_created) .'</td>
+                                                                    <td>
+                                                                        <a action-type="get_accompaniment" data="'. $accompaniment['id'] .'" href="#" class="btn btn-warning btn-icon-split btn-action">
+                                                                            <span class="px-2 py-1">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                        <a action-type="delete_accompaniment" data="'. $accompaniment['id'] .'" href="#" class="btn btn-danger btn-icon-split btn-action">
+                                                                            <span class="px-2 py-1">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                    </td> 
+                                                                </tr>'
+                                                            ;
+                                                        }
+                                                    }
+                                                ?>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -333,90 +382,7 @@
                     <!-- Content Row -->
 
 
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Accompaniments</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Food Item</th>
-                                                    <th>Added By</th>
-                                                    <th>Date Created</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Food Item</th>
-                                                    <th>Added By</th>
-                                                    <th>Date Created</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Okro Stew and Tilapia</td>
-                                                    <td>Banku</td>
-                                                    <td>Josh Pong</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Delete</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Tomato Stew and Chicken</td>
-                                                    <td>Rice</td>
-                                                    <td>Mina Dankwah</td>
-                                                    <td>12-AUG-2021</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-warning btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-edit"></i>
-                                                            </span>
-                                                            <span class="text">Modiy</span>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-trash"></i>
-                                                            </span>
-                                                            <span class="text">Delete</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Content Row -->
+                    
                    
 
                 </div>
@@ -452,10 +418,10 @@
     <script src="lib/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- FontAwesome JavaScript -->
-    <script defer src="lib/font-awesome-pro/js/pro.js"></script> 
+    <script defer src="lib/font-awesome-pro/js/pro.js"></script>
 
     <!-- SweetAlert JavaScript -->
-    <script src="lib/sweetalert2/sweetalert2.js"></script> 
+    <script src="lib/sweetalert2/sweetalert2.js"></script>  
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
@@ -466,8 +432,8 @@
     <script src="lib/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
+    <!-- <script src="js/chart-area-demo.js"></script> -->
+    <!-- <script src="js/chart-pie-demo.js"></script> -->
     <script src="js/datatables-demo.js"></script>
     <script src="js/main.js"></script>
 

@@ -1,15 +1,13 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
-
-// Pie Chart Example
 var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
+var config = {
   type: 'doughnut',
   data: {
-    labels: ["Direct", "Referral", "Social"],
+    labels: ["Least", "Fast"],
     datasets: [{
-      data: [55, 30, 15],
+      data: [100, 100],
       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
@@ -32,4 +30,36 @@ var myPieChart = new Chart(ctx, {
     },
     cutoutPercentage: 80,
   },
-});
+}
+var pieChart = new Chart(ctx, config);
+
+$(document).ready(function() {
+  $.ajax({
+    url: "core/chart_data.php",
+    method: "post",
+    dataType: "json",
+    data: {
+      chart: "pie"
+    },
+    error: function (e) {
+    },
+    beforeSend: function () {
+    },
+    success: function (response) {
+      if(response['status'] == "OK") {
+        pieChart.data.datasets[0].data = [
+          response["data"]['fast']['count'],
+          response["data"]['least']['count']
+        ];
+        pieChart.data.labels = [
+          "Fast Moving Food("+ response["data"]['fast']['name'] +")",
+          "Least Moving Food("+ response["data"]['least']['name'] +")"
+        ];
+        pieChart.update();
+        $("#fast_food").text(response["data"]['fast']['name'])
+        $("#least_food").text(response["data"]['least']['name'])
+      }
+    }
+  })
+})
+

@@ -11,13 +11,20 @@ $(document).ready(function () {
     })
 
 
-    $(document).on("click", "a[data-target='#add_user']", function (e) {
+    $(document).on("click", "button[data-toggle='modal']", function (e) {
         e.preventDefault();
+        var _this = $(this);
+        var _target = _this.attr("data-target").replace("#", "").split("_");
+        console.log(_target);
 
-        $("#add_user form").attr("action-type", "add_user");
-        $("#add_user form").trigger("reset");
-        $("#add_user form button.btn-primary").text("Add User");
-        $("#add_user").modal("show");
+        $(_this.attr("data-target") +" form").attr("action-type", _this.attr("data-target").replace("#", ""));
+        $(_this.attr("data-target") +" form").trigger("reset");
+        $(_this.attr("data-target") +" form button.btn-primary").text(
+            _target[0].charAt(0).toUpperCase() + _target[0].slice(1) 
+            + " " +
+            _target[1].charAt(0).toUpperCase() + _target[1].slice(1)
+        );
+        $(_this.attr("data-target")).modal("show");
     })
 
     $(document).on("submit", "form", function(e) {
@@ -38,7 +45,6 @@ $(document).ready(function () {
                 console.log(e);
             },
             beforeSend: () => {
-
             },
             success: (response) => {
                 if(response['status'] == "OK") {
@@ -66,7 +72,6 @@ $(document).ready(function () {
 
 
     $(document).on("click", ".btn-action", function (e) {
-        console.log("dd");
         e.preventDefault();
         var _this = $(this);
 
@@ -82,9 +87,9 @@ $(document).ready(function () {
                 console.log(e);
             },
             beforeSend: () => {
-
             },
             success: (response) => {
+                console.log(response);
                 if(response['status'] == "OK") {
                     if(_this.attr("action-type") == "logout") {
                         swal.fire({
@@ -92,7 +97,7 @@ $(document).ready(function () {
                             text: response['message'],
                             icon: "success"
                         }).then((value) => {
-                           window.location.reload();
+                           window.location = "index.php";
                         });
                     } else if(_this.attr("action-type") == "delete_user") {
                         swal.fire({
@@ -102,14 +107,42 @@ $(document).ready(function () {
                         }).then((value) => {
                            window.location.reload();
                         });
-                    } else {
+                    } else if(_this.attr("action-type") == "get_user") {
                         $("#add_user form").attr("action-type", "update_user");
-                        $("#add_user form button.btn-primary").text("Update User");
+                        $("#add_user form button.btn-primary").text("Save");
                         for (const key in response['data']) {
-                            $("#add_user form input[name='" + key + "']").val(response['data'][key]);
-                            $("#add_user form select[name='" + key + "']").val(response['data'][key]);
+                            $("#add_user form input[name='" + key + "']:not(input[type='file'])").val(response['data'][key]);
+                            $("#add_user form select[name='" + key + "'] option[value='" + response['data'][key] + "']").prop("selected", true);
                             $("#add_user").modal("show");
                         }
+                    } else if (_this.attr("action-type") == "get_accompaniment") {
+                        $("#add_accompaniment form").attr("action-type", "update_accompaniment");
+                        $("#add_accompaniment form button.btn-primary").text("Save");
+                        for (const key in response['data']) {
+                            if(key != "image") {
+                                $("#add_accompaniment form input[name='" + key + "']").val(response['data'][key]);
+                                $("#add_accompaniment form select[name='" + key + "']").val(response['data'][key]);
+                                $("#add_accompaniment").modal("show");
+                            }
+                        }
+                    } else if (_this.attr("action-type") == "get_food") {
+                        $("#add_food form").attr("action-type", "update_food");
+                        $("#add_food form button.btn-primary").text("Save");
+                        for (const key in response['data']) {
+                            if(key != "image") {
+                                $("#add_food form input[name='" + key + "']").val(response['data'][key]);
+                                $("#add_food form select[name='" + key + "']").val(response['data'][key]);
+                                $("#add_food").modal("show");
+                            }
+                        }
+                    } else {
+                        swal.fire({
+                            title: "Delete Successful",
+                            text: response['message'],
+                            icon: "success"
+                        }).then((value) => {
+                           window.location.reload();
+                        });
                     }
                 } else {
                     swal.fire({
