@@ -5,6 +5,51 @@ if(!isset($_SESSION['user_details'])) {
 } else {
     if($_SESSION['user_details']['role'] != "Admin") header("Location: index.php");
 }
+
+$data = [];
+$food_query = mysqli_query($conn, "SELECT * FROM foods");
+while ($food = mysqli_fetch_array($food_query)) {
+    $food['accompaniments'] = [];
+    
+    $accompaniment_query = mysqli_query($conn, "SELECT * FROM accompaniment WHERE food_item = '{$food['id']}'");
+    while($accompaniment = mysqli_fetch_array($accompaniment_query)) {
+        array_push($food['accompaniments'], $accompaniment);
+    }
+    array_push($data, $food);
+}
+
+$payments = [];
+$payment_query = mysqli_query($conn, "SELECT * FROM food_payment");
+while ($payment = mysqli_fetch_array($payment_query)) {
+    array_push($payments, $payment);
+}
+
+$today = date("Y-m-d");
+$days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+$day_num = array_search(date("D", strtotime($today)), $days);
+
+$week_start = date("Y-m-d", strtotime("$today - $day_num days"));
+$week_end = date("Y-m-d", strtotime("$today + ".(7 - $day_num)." days"));
+
+function group_by($key, $data) {
+    $result = array();
+
+    foreach($data as $val) {
+        if(array_key_exists($key, $val)){
+            $result[$val[$key]][] = $val;
+        }else{
+            $result[""][] = $val;
+        }
+    }
+
+    return $result;
+}
+
+$payment_group = group_by("food_id", $payments);
+$payment_group = array_map(function($elem) {
+    return count($elem);
+}, $payment_group);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +70,9 @@ if(!isset($_SESSION['user_details'])) {
 
     <!-- Datatable StyleSheet -->
     <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
+
+    <!-- SweetAlert StyleSheet -->
+    <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -71,7 +119,16 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Daily Sales</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">&#8373;400</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">GHS
+                                                <?php
+                                                    $daily_sales = 0;
+                                                    foreach ($payments as $value) {
+                                                        if(date("Y-m-d") == explode(" ", $value['date_created'])[0])
+                                                        $daily_sales += $value['amount'];
+                                                    }
+                                                    echo $daily_sales;
+                                                ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
@@ -89,7 +146,16 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Weekly Sales</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Ghs 2000.00</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">GHS
+                                            <?php
+                                                $weekly_sales = 0;
+                                                foreach ($payments as $value) {
+                                                    if($week_start <= explode(" ", $value['date_created'])[0] && $week_end >= explode(" ", $value['date_created'])[0])
+                                                    $weekly_sales += $value['amount'];
+                                                }
+                                                echo $weekly_sales;
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-money-bill-wave fa-2x text-gray-300"></i>
@@ -107,7 +173,24 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Fast Moving Food</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Banku</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $food_id = 0;
+                                                foreach ($payment_group as $key => $value) {
+                                                    global $least_count;
+                                                    if($least_count == null || $value > $least_count) {
+                                                        $least_count = $value;
+                                                        $food_id = $key;
+                                                    }
+                                                }
+                                                foreach ($data as $value) {
+                                                    if($value['id'] == $food_id) {
+                                                        echo $value['name'];
+                                                        break;
+                                                    }
+                                                }
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
@@ -125,7 +208,16 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Daily Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $daily_orders = 0;
+                                                foreach ($payments as $value) {
+                                                    if(date("Y-m-d") == explode(" ", $value['date_created'])[0])
+                                                    $daily_orders += 1;
+                                                }
+                                                echo $daily_orders;
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-store fa-2x text-gray-300"></i>
@@ -143,7 +235,16 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Weekly Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $weekly_orders = 0;
+                                                foreach ($payments as $value) {
+                                                    if($week_start <= explode(" ", $value['date_created'])[0] && $week_end >= explode(" ", $value['date_created'])[0])
+                                                    $weekly_orders += 1;
+                                                }
+                                                echo $weekly_orders;
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-store fa-2x text-gray-300"></i>
@@ -161,7 +262,24 @@ if(!isset($_SESSION['user_details'])) {
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Least Moving Food</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rice</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <?php
+                                                $food_id = 0;
+                                                foreach ($payment_group as $key => $value) {
+                                                    global $least_count;
+                                                    if($least_count == null || $value < $least_count) {
+                                                        $least_count = $value;
+                                                        $food_id = $key;
+                                                    }
+                                                }
+                                                foreach ($data as $value) {
+                                                    if($value['id'] == $food_id) {
+                                                        echo $value['name'];
+                                                        break;
+                                                    }
+                                                }
+                                            ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-burger-soda fa-2x text-gray-300"></i>
@@ -234,23 +352,57 @@ if(!isset($_SESSION['user_details'])) {
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
                                     </div>
-                                    <div class="mt-4 text-center small">
+                                    <div class="mt-4 small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Least moving food(FriedYam)
+                                            <i class="fas fa-circle text-primary"></i> Fast moving food (<span id="fast_food">FriedYam</span>)
                                         </span>
+                                        <br>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Food rejected
+                                            <i class="fas fa-circle text-success"></i> Least moving food (<span id="least_food">FriedYam</span>)
                                         </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Fast moving food(banku)
-                                        </span>
+                                        <br>
+                                        <span class="mr-2"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Content Row -->
+
+                    <!-- Content Row -->
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Context Row -->
                    
 
                 </div>
@@ -288,6 +440,9 @@ if(!isset($_SESSION['user_details'])) {
     <!-- FontAwesome JavaScript -->
     <script defer src="lib/font-awesome-pro/js/pro.js"></script> 
 
+    <!-- SweetAlert JavaScript -->
+    <script src="lib/sweetalert2/sweetalert2.js"></script> 
+
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
 
@@ -297,7 +452,8 @@ if(!isset($_SESSION['user_details'])) {
     <!-- Page level custom scripts -->
     <script src="js/chart-area-demo.js"></script>
     <script src="js/chart-pie-demo.js"></script>
-    <script src="js/datatables-demo.js"></script>
+    <!-- <script src="js/datatables-demo.js"></script> -->
+    <script src="js/main.js"></script>
 
 </body>
 

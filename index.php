@@ -1,7 +1,7 @@
 <?php
 include 'core/conn.php';
 if(isset($_SESSION['user_details'])) {
-    header("Location:" . ($_SESSION['user_details']['role'] == "Admin" ? "home.php" : "waiter.php"));
+    header("Location:" . ($_SESSION['user_details']['role'] == "Admin" ? "home.php" : "wonder copy.php"));
 }
 ?>
 <!DOCTYPE html>

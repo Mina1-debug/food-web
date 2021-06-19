@@ -1,0 +1,217 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    background: #e1e1e1; 
+    font-family: 'century gothic'; 
+  
+}
+.header {
+    background: rgba(100, 97, 97, 0.9);
+    padding: 3px 20px;
+    color: white;
+    margin: 0px;
+    letter-spacing: 1px;
+    font: caption;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    top: 0px;
+   
+}
+.header img {
+  float: left;
+  width: 100px;
+  height: 80px;
+  margin-left: 150px;
+  margin-top: 20px;
+
+}
+ .header button{
+  float: right;
+  margin-top: -43px;
+  margin-right: 150px;
+}
+.header h6 {
+  font-size: small;
+  margin-top:20px ;
+  margin-bottom:auto;
+  margin-right: 250px;
+ 
+}
+.header h2 {
+  font-size: larger;
+  margin-top:20px ;
+  margin-bottom:auto;
+  margin-right: 250px;
+}
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+  font-family: Alternate Gothic;
+}
+
+.mina {
+    text-align: center;
+    margin: 0 auto 10px;
+    position: relative;
+    line-height: 50px;
+    color: #555;
+}
+.mina::after {
+    content:'';
+    background: #3e3bff;
+    width:60px;
+    height: 2px;
+    border-radius: 5px;
+    position: absolute;
+    bottom:0;
+    left: 50%;
+    transform: translateX(-50%  )
+}
+
+.box{
+
+	width: 500px;
+
+	height: 50px;
+
+	background-color: white;
+
+	border-radius: 30px;
+
+	display: flex;
+
+	align-items: center;
+
+	padding: 20px;
+
+}
+
+.box > i {
+
+	font-size: 20px;
+
+	color: #777;
+
+}
+
+.box > input{
+
+	flex: 1;
+
+	height: 40px;
+
+	border: none;
+
+	outline: none;
+
+	font-size: 18px;
+
+	padding-left: 10px;
+
+
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 210px 90px 80px;
+  grid-template-areas: "image" "text" "stats";
+
+  border-radius: 5px;
+  background: white;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.9);
+  font-family: century gothic;
+  text-align: center;
+}
+.card-image {
+  grid-area: image;
+}
+.card-text {
+  grid-area: text;
+}
+.card-stats {
+  grid-area: stats; 
+}
+.card-image {
+  grid-area: image;
+  background: url("img1.jpg");
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-size: cover;
+  border-radius: 5px;
+}
+.card-text {
+  grid-area: text;
+  margin: 15px;
+  padding-top: 15px;
+  font-family: Century Gothic;
+}
+.card-text .date {
+  color: rgb(255, 7, 110);
+  font-size:13px;
+}
+.card-text p {
+  color: grey;
+  font-size:15px;
+  font-weight: 300;
+  font-family: Century Gothic;
+}
+.card-text h2 {
+  margin-top:0px;
+  font-size:28px;
+  font-family: Century Gothic;
+}
+.card-stats {
+  grid-area: stats; 
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: rgb(255, 7, 110);
+}
+.card-stats .stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  padding:10px;
+}
+.card:hover {
+  transform: scale(1.15);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
+}
+.card {
+
+  transition: 0.5s ease;
+  cursor: pointer;
+  margin:30px;
+}
+.wonder {
+     width: 200px;
+     padding: 15px;
+     border: 5px solid gray;
+     margin: auto;
+     padding-top: 20px; 
+     margin-bottom: 20px;
+     margin-top: 30px;  
+}
+h6 {
+    text-align: center;
+    cursor: pointer;
+}
+.card-img-top {
+  /* width: 300px; */
+  height: 250px;
+  border-radius: 5px;
+}
+.card-title {
+  margin-top: 40px;
+  font-size: 30px;
+}
+
+

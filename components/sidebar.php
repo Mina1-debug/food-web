@@ -1,12 +1,10 @@
 
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul style="background: #1E90FF" class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Corner Inn <sup></sup></div>
+    <img src="images/Gro.png" alt="logo" width="120px" height="80px" />
+        <div class="sidebar-brand-text mx-3">Food Factory <sup></sup></div>
     </a>
 
     <!-- Divider -->

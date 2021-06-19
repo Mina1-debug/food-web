@@ -226,6 +226,8 @@ article
     text-align: center;
 }
 
+
+
 @media screen and (min-width: 350px) {
     .formholder {
         width: 350px;

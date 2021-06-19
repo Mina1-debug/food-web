@@ -11242,3 +11242,11 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.btn-primary {
+  background: #1E90FF !important
+}
+
+.btn-action {
+  cursor: pointer;
+}
