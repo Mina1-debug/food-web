@@ -4,6 +4,9 @@ $(document).ready(function () {
     $(document).on("keyup, change", "input, select", function () {
         $(".error_info[input-name='" + $(this).attr("name") + "']").text("");
     });
+    $(document).on("click", ".btn", function () {
+        $(".error_info").text("");
+    });
 
     $(document).on('change', '.custom-file-input', function(){
         var fileName = $(this).val();
@@ -14,16 +17,17 @@ $(document).ready(function () {
     $(document).on("click", "button[data-toggle='modal']", function (e) {
         e.preventDefault();
         var _this = $(this);
-        var _target = _this.attr("data-target").replace("#", "").split("_");
-        console.log(_target);
+        // var _target = _this.attr("data-target").replace("#", "").split("_");
+        // console.log(_target);
 
         $(_this.attr("data-target") +" form").attr("action-type", _this.attr("data-target").replace("#", ""));
         $(_this.attr("data-target") +" form").trigger("reset");
-        $(_this.attr("data-target") +" form button.btn-primary").text(
-            _target[0].charAt(0).toUpperCase() + _target[0].slice(1) 
-            + " " +
-            _target[1].charAt(0).toUpperCase() + _target[1].slice(1)
-        );
+        // if(_target[1].charAt(0).toUpperCase() + _target[1].slice(1) == "User")
+        //     $(_this.attr("data-target") +" form button.btn-primary").text(
+        //         _target[0].charAt(0).toUpperCase() + _target[0].slice(1) 
+        //         + " " +
+        //         _target[1].charAt(0).toUpperCase() + _target[1].slice(1)
+        //     );
         $(_this.attr("data-target")).modal("show");
     })
 

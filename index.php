@@ -22,6 +22,9 @@ if(isset($_SESSION['user_details'])) {
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/general.css">
 
+    <!-- SweetAlert StyleSheet -->
+    <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
+
     <!--Load the AJAX API-->
     <script type="text/javascript" src="js/loader.js"></script>
 
@@ -29,8 +32,8 @@ if(isset($_SESSION['user_details'])) {
 
 <body>
     <!--LOGIN FORM-->
-    <div style="background-image: url('images/rest_kit1.jpg');" class=" bg_img h-100">
-        <div class="w-100 h-100 d-flex bg_t80 flex-wrap align-content-center justify-content-center">
+    <div style="background-image: url('images/rest_kit1.jpg');" class=" bg_img">
+        <div class="w-100 d-flex bg_t80 flex-wrap align-content-center justify-content-center" style="height: 100vh">
             <div class="formholder card shadow">
                 <div class="card-body px-4">
                     <form class="w-100" action-type="login" method="post">
@@ -81,9 +84,12 @@ if(isset($_SESSION['user_details'])) {
 <!-- jQuery library -->
 <script src="lib/jquery/jquery.js"></script>
 
-
 <!-- Latest compiled JavaScript -->
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- SweetAlert JavaScript -->
+<script src="lib/sweetalert2/sweetalert2.js"></script>  
+
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -114,6 +120,11 @@ if(isset($_SESSION['user_details'])) {
                     if(response['status'] == "OK") {
                         window.location = "index.php";
                     } else {
+                        Swal.fire({
+                            title: "Login Failed",
+                            text: "No user exist with this account details",
+                            icon: "error"
+                        });
                         response['data'].forEach(item => {
                             $(".error_info[input-name='" + item[0] + "']").text(item[1]);
                         });

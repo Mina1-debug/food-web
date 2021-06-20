@@ -127,11 +127,11 @@
                                                 <h2>Order Form</h3>
                                                 <div class="p-3 m-3" style="border: solid 2px rgb(180, 179, 179);">
                                                     <h4>Food Item</h4>
-                                                    <form action-type="food_payment">
+                                                    <form action-type="food_payment" autocomplete="off">
                                                         <div class="mb-4">  
-                                                            <input name="name" type="text" min="5" class="form-control rounded-pill mb-4" id="exampleInputEmail1" placeholder="Name" required>
-                                                            <input name="contact" type="text" min="5" class="form-control rounded-pill mb-4" id="exampleInputEmail1" placeholder="Contact" required>
-                                                            <input name="amount" type="number" min="5" class="form-control rounded-pill mb-4" id="exampleInputEmail1" placeholder="Amount (Ghs)" required>
+                                                            <input name="name" type="text" class="form-control rounded-pill mb-4" placeholder="Name" autocomplete="off" required>
+                                                            <input name="contact" type="text"  class="form-control rounded-pill mb-4" placeholder="Contact" required>
+                                                            <input name="amount" type="number" min="5" class="form-control rounded-pill mb-4" placeholder="Amount (Ghs)" required>
                                                             <select name="food" class="form-control rounded-pill mb-4" required>
                                                                 <option value="'.$result['id'].'" selected>'.$result['name'].'</option>
                                                             </select>
