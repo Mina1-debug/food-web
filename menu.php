@@ -75,7 +75,7 @@ if(!isset($_SESSION['user_details'])) {
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row"> -->
                         <!-- Modal -->
                         <div class="modal fade" id="add_food" tabindex="-1" role="dialog" aria-labelledby="add_food" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -120,7 +120,7 @@ if(!isset($_SESSION['user_details'])) {
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    <!-- </div> -->
 
                     <!-- Modal -->
                     <div class="modal fade" id="add_accompaniment" tabindex="-1" role="dialog" aria-labelledby="add_accompaniment" aria-hidden="true">
@@ -386,7 +386,7 @@ if(!isset($_SESSION['user_details'])) {
                    
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
 
             </div>
             <!-- End of Main Content -->

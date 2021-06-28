@@ -166,7 +166,7 @@ if(isset($_POST['action'])) {
             ]));
         }
 
-    } else if($_POST['action'] == "update_user") {
+    } else if($_POST['action'] == "update_user" || $_POST['action'] == "update_self") {
         $error_handler = [
             "status" => "",
             "message" => "",
@@ -174,6 +174,7 @@ if(isset($_POST['action'])) {
         ];
 
         foreach ($_POST as $key => $value) {
+            if($key != "date_of_birth")
             if(empty(trim($value))) {
                 $error_handler['status'] = "MISSING_PARAMETERS";
                 $error_handler['message'] = "Some required field were left empty";
@@ -186,6 +187,8 @@ if(isset($_POST['action'])) {
         if(!empty($error_handler['status'])) {
             exit(json_encode($error_handler));
         }
+
+        $id = $_POST['action'] == "update_self" ? $_SESSION['user_details']['id'] : $id;
 
         $sql = "SELECT * FROM users WHERE id = '$id' LIMIT 1";
         $query = mysqli_query($conn, $sql);
@@ -215,7 +218,7 @@ if(isset($_POST['action'])) {
                 ]));
             }
 
-            if(!move_uploaded_file($source, "../images/uploads/" . $new_filename)) {
+            if(!move_uploaded_file($source, "../images/uploads/user_" . $new_filename)) {
                 exit(json_encode([
                     "status" => "FILE_UPLOAD_FAILED",
                     "message" => "Your profile picture could not be uploaded",
@@ -227,11 +230,25 @@ if(isset($_POST['action'])) {
         }
 
         $admin_id = $_SESSION['user_details']['id'];
-        if($results['password'] != $password) $password = md5($password);
-        $new_filename = empty($new_filename) ? '' : ', profile_image = user_'.$new_filename.",";
-        $sql = "UPDATE users SET first_name = '$first_name', last_name = '$last_name', username = '$username', password = '$password' $new_filename role = '$role' WHERE id = '$id'";
+        if(isset($password)) if($results['password'] != $password) $password = md5($password);
+        $new_filename = $new_filename == $results['profile_image'] ? '' : "profile_image = 'user_".$new_filename."',";
+
+        $date_of_birth = isset($date_of_birth) ? "date_of_birth = '$date_of_birth'," : '';
+        $username = isset($username) ? "username = '$username'," : '';
+        $password = isset($password) ? "password = '$password'," : '';
+        $role = isset($role) ? "role = '$role'," : '';
+
+        $sql = "UPDATE users SET $date_of_birth $username $password $new_filename $role first_name = '$first_name', last_name = '$last_name' WHERE id = '$id'";
         
         if(mysqli_query($conn, $sql)) {
+            if($_POST['action'] == "update_self") {
+                $sql = "SELECT * FROM users WHERE id = '$id' LIMIT 1";
+                $query = mysqli_query($conn, $sql);
+                $results = mysqli_fetch_array($query);
+
+                $_SESSION['user_details'] = $results;
+            }
+
             exit(json_encode([
                 "status" => "OK",
                 "message" => "User updated successfully",

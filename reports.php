@@ -131,6 +131,11 @@ if(!isset($_SESSION['user_details'])) {
                                             </div>
 
                                         </div>
+                                        <div class="row d-flex justify-content-end">
+                                            <div class="col-lg-3 mb-3">
+                                                <input type="reset" class="btn btn-primary form-control report-filter" value="Reset">
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
 
@@ -140,98 +145,93 @@ if(!isset($_SESSION['user_details'])) {
 
                     </div>
 
-                    <!-- Content Row -->
-                </div>
+                    <div class="row">
+                        <!-- Area Chart -->
+                        <div class="col-xl-12 col-lg-12">
 
-
-                <!-- Area Chart -->
-                <div class="col-xl-12 col-lg-12">
-
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Accompaniment</th>
-                                            <th>Added By</th>
-                                            <th>Date Created</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $sql = mysqli_query($conn, "SELECT * FROM food_payment");
-                                            while ($sale = mysqli_fetch_array($sql)) {
-                                                $food_item = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$sale['food_id']}'");
-                                                $food_item = mysqli_fetch_array($food_item);
-
-                                                $accompaniment_item = mysqli_query($conn, "SELECT * FROM accompaniment WHERE id = '{$sale['accompaniment_id']}'");
-                                                $accompaniment_item = mysqli_fetch_array($accompaniment_item);
-
-                                                $user = mysqli_query($conn, "SELECT * FROM users WHERE id = '{$sale['user_id']}'");
-                                                $user = mysqli_fetch_array($user);
-                                                ?>
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
                                                 <tr>
-                                                    <td><?=$sale['id']?></td>
-                                                    <td><?=($food_item['name']  ?? '<i>Food item was deleted</i>')?></td>
-                                                    <td><?=($accompaniment_item['name']  ?? '<i>Accompaniment was deleted</i>')?></td>
-                                                    <td><?=$user['first_name']?> <?=$user['last_name']?></td>
-                                                    <td><?=date_parser($sale['date_created'])?></td>
-                                                    <td>
-                                                        <a action-type="view_sale" data="<?=$sale['id']?>" href="#" class="btn btn-success btn-icon-split btn-action">
-                                                            <span class="px-2 py-1">
-                                                                <i class="fas fa-eye"></i>
-                                                            </span>
-                                                        </a>
-                                                    </td>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Accompaniment</th>
+                                                    <th>Purchased By</th>
+                                                    <th>Handled By</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
                                                 <?php
-                                            }
-                                        ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Accompaniment</th>
-                                            <th>Added By</th>
-                                            <th>Date Created</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
+                                                    $sql = mysqli_query($conn, "SELECT * FROM food_payment");
+                                                    while ($sale = mysqli_fetch_array($sql)) {
+                                                        $food_item = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$sale['food_id']}'");
+                                                        $food_item = mysqli_fetch_array($food_item);
 
-                                    </tbody>
-                                </table>
+                                                        $accompaniment_item = mysqli_query($conn, "SELECT * FROM accompaniment WHERE id = '{$sale['accompaniment_id']}'");
+                                                        $accompaniment_item = mysqli_fetch_array($accompaniment_item);
+
+                                                        $user = mysqli_query($conn, "SELECT * FROM users WHERE id = '{$sale['user_id']}'");
+                                                        $user = mysqli_fetch_array($user);
+                                                        ?>
+                                                        <tr>
+                                                            <td><?=$sale['id']?></td>
+                                                            <td><?=($food_item['name']  ?? '<i>Food item was deleted</i>')?></td>
+                                                            <td><?=($accompaniment_item['name']  ?? '<i>Accompaniment was deleted</i>')?></td>
+                                                            <td><?=$sale['name']?> | <?=$sale['contact']?></td>
+                                                            <td><?=$user['first_name']?> <?=$user['last_name']?></td>
+                                                            <td><?=date_parser($sale['date_created'])?></td>
+                                                            <td>
+                                                                <a action-type="view_sale" data="<?=$sale['id']?>" href="#" class="btn btn-success btn-icon-split btn-action">
+                                                                    <span class="px-2 py-1">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Accompaniment</th>
+                                                    <th>Purchased By</th>
+                                                    <th>Handled By</th>
+                                                    <th>Date Created</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
+
                     </div>
 
+
                 </div>
+                <!-- End of Main Content -->
 
             </div>
-
-            <!-- Content Row -->
-
-
-
-
+            <!-- End of Main Content -->
+            
+            <!-- Footer -->
+            <?php include 'components/footer.php'?>
+            <!-- End of Footer -->
 
         </div>
-        <!-- /.container-fluid -->
-
-    </div>
-    <!-- End of Main Content -->
-
-    <!-- Footer -->
-    <?php include 'components/footer.php'?>
-    <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
+        <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
