@@ -8,7 +8,12 @@ $(document).ready(function() {
       function(settings, data, dataIndex) {
         var from_date = new Date($(".report-filter[name='date_from']").val());
         var to_date = new Date($(".report-filter[name='date_to']").val());
-        var date = new Date(data[4]);
+        // 6nd column (5th index) in the report table (Date Created)
+        var date = new Date(data[5]);
+
+        // console.log("Index " + dataIndex);
+        // console.log("From " + from_date);
+        // console.log("To " + to_date);
 
         if(from_date == "Invalid Date" || to_date == "Invalid Date") {
           if(from_date == "Invalid Date" && to_date == "Invalid Date") {
@@ -37,12 +42,17 @@ $(document).ready(function() {
 
   $(document).on("change", ".report-filter", function () {
     table
-      .columns(3).search($(".report-filter[name='user']").val())
+    // 5th column (4th index) in the report table (Added By)
+      .columns(4).search($(".report-filter[name='user']").val())
+    // 2nd column (1th index) in the report table (Food)
       .columns(1).search($(".report-filter[name='food']").val())
       .draw();
   })
 
   $(document).on("click", ".report-filter[type='reset']", function () {
+    $("input.report-filter").each((i, e) => {
+      if($(e).attr("type") != "reset") $(e).val("")
+    })
     table.columns().search("").draw();
   })
 
