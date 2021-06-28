@@ -48,8 +48,8 @@ $(document).ready(function() {
     success: function (response) {
       if(response['status'] == "OK") {
         pieChart.data.datasets[0].data = [
-          response["data"]['fast']['count'],
-          response["data"]['least']['count']
+          response["data"]['fast']['count'] ?? 0,
+          response["data"]['least']['count'] ?? 0
         ];
         pieChart.data.labels = [
           "Fast Moving Food("+ response["data"]['fast']['name'] +")",

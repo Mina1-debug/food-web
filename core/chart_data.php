@@ -54,7 +54,8 @@ if($_POST['chart'] == "pie") {
         if($least_count == null || $value < $least_count) {
             $least_count = $value;
             $least_food_id = $key;
-        } else if ($value > $fast_count) {
+        }
+        if ($fast_count == null || $value > $fast_count) {
             $fast_count = $value;
             $fast_food_id = $key;
         }
