@@ -31,6 +31,7 @@ if(isset($_SESSION['user_details'])) {
 </head>
 
 <body>
+    <?php include 'loader.php';?>
     <!--LOGIN FORM-->
     <div style="background-image: url('images/rest_kit1.jpg');" class=" bg_img">
         <div class="w-100 d-flex bg_t80 flex-wrap align-content-center justify-content-center" style="height: 100vh">

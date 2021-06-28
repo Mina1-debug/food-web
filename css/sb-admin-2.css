@@ -212,6 +212,43 @@ table {
   border-collapse: collapse;
 }
 
+.dt-button {
+  display: inline-block;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #4e73df;
+  border: 1px solid transparent;
+  border-color: #4e73df;
+  padding: 0.375rem 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.35rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dt-button:hover {
+  color: #fff;
+  background-color: #2e59d9;
+  border-color: #2653d4;
+}
+
+.report-btn-danger {
+  background-color: #e74a3b;
+  border-color: #e74a3b;
+}
+
+.report-btn-danger:hover {
+  background-color: #e02d1b;
+  border-color: #d52a1a;
+}
+/* -button buttons-print */
+
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;

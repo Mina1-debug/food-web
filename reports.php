@@ -40,6 +40,7 @@ if(!isset($_SESSION['user_details'])) {
 </head>
 
 <body id="page-top">
+    <?php include 'loader.php';?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -152,16 +153,18 @@ if(!isset($_SESSION['user_details'])) {
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" id="report_table" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
+                                                    <th><input type="checkbox" id="all_ids"></th>
                                                     <th>ID</th>
                                                     <th>Name</th>
                                                     <th>Accompaniment</th>
-                                                    <th>Purchased By</th>
+                                                    <th>Buyer's Name</th>
+                                                    <th>Buyer's Contact</th>
                                                     <th>Handled By</th>
                                                     <th>Date Created</th>
-                                                    <th>Action</th>
+                                                    <th>Amount</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -178,19 +181,15 @@ if(!isset($_SESSION['user_details'])) {
                                                         $user = mysqli_fetch_array($user);
                                                         ?>
                                                         <tr>
+                                                            <td><input type="checkbox" name="report_items" value="<?=$sale['id']?>"></td>
                                                             <td><?=$sale['id']?></td>
                                                             <td><?=($food_item['name']  ?? '<i>Food item was deleted</i>')?></td>
                                                             <td><?=($accompaniment_item['name']  ?? '<i>Accompaniment was deleted</i>')?></td>
-                                                            <td><?=$sale['name']?> | <?=$sale['contact']?></td>
+                                                            <td><?=$sale['name']?></td>
+                                                            <td> <?=$sale['contact']?></td>
                                                             <td><?=$user['first_name']?> <?=$user['last_name']?></td>
                                                             <td><?=date_parser($sale['date_created'])?></td>
-                                                            <td>
-                                                                <a action-type="view_sale" data="<?=$sale['id']?>" href="#" class="btn btn-success btn-icon-split btn-action">
-                                                                    <span class="px-2 py-1">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </span>
-                                                                </a>
-                                                            </td>
+                                                            <td>GHS <?=$sale['amount']?></td>
                                                         </tr>
                                                         <?php
                                                     }
@@ -198,13 +197,15 @@ if(!isset($_SESSION['user_details'])) {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                    <th></th>
                                                     <th>ID</th>
                                                     <th>Name</th>
                                                     <th>Accompaniment</th>
-                                                    <th>Purchased By</th>
+                                                    <th>Buyer's Name</th>
+                                                    <th>Buyer's Contact</th>
                                                     <th>Handled By</th>
                                                     <th>Date Created</th>
-                                                    <th>Action</th>
+                                                    <th>Amount</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
@@ -265,6 +266,8 @@ if(!isset($_SESSION['user_details'])) {
     <script src="lib/chart.js/Chart.min.js"></script>
     <script src="lib/datatables/jquery.dataTables.min.js"></script>
     <script src="lib/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
 
     <!-- Page level custom scripts -->
     <!-- <script src="js/chart-area-demo.js"></script> -->

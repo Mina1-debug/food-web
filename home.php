@@ -76,10 +76,12 @@ $payment_group = array_map(function($elem) {
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="css/loader.css" rel="stylesheet">
 
 </head>
 
 <body id="page-top">
+    <?php include 'loader.php';?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">

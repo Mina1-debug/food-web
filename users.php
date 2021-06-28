@@ -39,6 +39,7 @@ if(!isset($_SESSION['user_details'])) {
 
 <body id="page-top">
 
+    <?php include 'loader.php';?>
     <!-- Page Wrapper -->
     <div id="wrapper">
 

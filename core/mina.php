@@ -690,7 +690,67 @@ if(isset($_POST['action'])) {
             "message" => "There was an unknown error"
         ])); 
 
-    }
+
+    }  else if ($_POST['action'] == "delete_food_payment") {
+        $error_handler = [
+            "status" => "",
+            "message" => "",
+            "data" => []
+        ];
+
+        if(!isset($_POST['ids']) || empty($_POST['ids'])) {
+            exit(json_encode([
+                "status" => "error",
+                "message" => "No row selected."
+            ]));
+            
+        } else {
+            $id = $_SESSION['user_details']['id'];
+
+            $user = mysqli_fetch_array(mysqli_query($conn, "SELECT * FROM users WHERE id = '{$id}'"));
+            if($user == null || $user['role'] != "Admin") {
+                exit(json_encode([
+                    "status" => "error",
+                    "message" => "You do not have the required permission to perform this action."
+                ]));
+            }
+
+            $string = '';
+            $ids = explode(',', $ids);
+            if(count($ids) <= 0) {
+                exit(json_encode([
+                    "status" => "error",
+                    "message" => "No row selected."
+                ]));
+            }
+
+            foreach ($ids as $key => $value) {
+                $string = "$string id = $value". (($key + 1 < count($ids)) ? " OR " : "");
+            }
+
+            $sql = mysqli_query($conn, "DELETE FROM food_payment WHERE $string");
+            if($sql) {
+                exit(json_encode([
+                    "status" => "success",
+                    "message" => "Deletion of data was successfull.",
+                    "data" => []
+                ]));
+
+            } else {
+                exit(json_encode([
+                    "status" => "error",
+                    "message" => "Deletion of data was unsuccessfull."
+                ])); 
+
+            }       
+        }
+
+        exit(json_encode([
+            "status" => "error",
+            "message" => "There was an unknown error"
+        ])); 
+
+        }
 }
 
 exit(json_encode([

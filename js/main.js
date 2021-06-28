@@ -1,6 +1,10 @@
 // const { swal } = require("lib/sweetalert2/sweetalert2.min");
 
 $(document).ready(function () {
+    function loadingIndicator(trigger = false) {
+        trigger ? $("#loader").fadeIn(800) : $("#loader").fadeOut(800);
+    }
+
     $(document).on("keyup, change", "input, select", function () {
         $(".error_info[input-name='" + $(this).attr("name") + "']").text("");
     });
@@ -14,7 +18,7 @@ $(document).ready(function () {
     })
 
 
-    $(document).on("click", "button[data-toggle='modal']", function (e) {
+    $(document).on("click", "a[data-toggle='modal']", function (e) {
         e.preventDefault();
         var _this = $(this);
         // var _target = _this.attr("data-target").replace("#", "").split("_");
@@ -46,11 +50,15 @@ $(document).ready(function () {
             contentType: false,
             data: _formData,
             error: (e) => {
+                loadingIndicator();
                 console.log(e);
             },
             beforeSend: () => {
+                loadingIndicator(true);
             },
             success: (response) => {
+                loadingIndicator();
+                
                 if(response['status'] == "OK") {
                     swal.fire({
                         title: "Submission successful",
@@ -88,11 +96,14 @@ $(document).ready(function () {
                 id: _this.attr("data")
             },
             error: (e) => {
+                loadingIndicator();
                 console.log(e);
             },
             beforeSend: () => {
+                loadingIndicator(true);
             },
             success: (response) => {
+                loadingIndicator();
                 console.log(response);
                 if(response['status'] == "OK") {
                     if(_this.attr("action-type") == "logout") {
@@ -159,4 +170,6 @@ $(document).ready(function () {
         });
     })
 
+
+    loadingIndicator();
 })

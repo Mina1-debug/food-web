@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    <?php include 'loader.php';?>
     <div class="header">
         <img src="images/Gro.png" alt="logo" width="50px" height="30px" />
         <h6>Food Factory</h6>
@@ -192,14 +193,16 @@
                     processData: false,
                     contentType: false,
                     error: (e, i) => {
+                        $("#loader").fadeOut(800)
                         Swal.fire({
                             title: "error",
                             text: "An unknown error occured in the request, Please Try Again",
                             icon: "error"
                         });
                     },
-                    beforeSend: () => {},
+                    beforeSend: () => {$("#loader").fadeIn(800)},
                     success: (response) => {
+                        $("#loader").fadeOut(800)
                         Swal.fire({
                             title: `${response['status'].substr(0, 1)[0].toUpperCase()}${response['status'].substr(1)}`,
                             text: response['message'],
@@ -235,11 +238,14 @@
                 id: _this.attr("data")
             },
             error: (e) => {
+                $("#loader").fadeOut(800)
                 console.log(e);
             },
             beforeSend: () => {
+                $("#loader").fadeIn(800)
             },
             success: (response) => {
+                $("#loader").fadeOut(800)
                 // console.log(response);
                 if(response['status'] == "OK") {
 

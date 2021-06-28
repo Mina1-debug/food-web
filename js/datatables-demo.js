@@ -1,8 +1,83 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
+  function loadingIndicator(trigger = false) {
+    trigger ? $("#loader").fadeIn(800) : $("#loader").fadeOut(800);
+  }
+
   try{
-    var table = $('#dataTable').DataTable();
-    $('#dataTable2').DataTable();
+    $('#dataTable').DataTable();
+    var table = $('#report_table').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        {
+          extend: 'print',
+          text: "<i class='fa fa-file-pdf mx-2'></i><span style='font-weight: 600'>Print</span>",
+          autoPrint: false,
+          header: true,
+          title: "Corner Inn",
+          customize: function (win) {
+            $(win.document.body).css('padding', '8px');
+            $(win.document.body).find('h1').css({
+              textAlign: 'center',
+              margin: "8px"
+            });
+          }
+        },
+        {
+          text: "<i class='fa fa-trash mx-2'></i><span style='font-weight: 600'>Delete</span>",
+          className: "report-btn-danger",
+          action: function ( e, dt, node, config ) {
+            var ids = [];
+
+            table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+              var data = $(this.node()).find("input[type='checkbox']");
+              
+              if(data.prop("checked") == true) {
+                ids.push(data.val());
+              } else {
+                ids = ids.filter((value, index, arr) => {
+                  return value != data.val();
+                })
+              }
+            });
+
+            if(ids.length > 0)
+            $.ajax({
+              url: "core/mina.php",
+              method: "post",
+              data: {
+                action: "delete_food_payment",
+                ids: ids.join(",")
+              },
+              dataType: "json",
+              error: (e) => {loadingIndicator()},
+              beforeSend: (e) => {loadingIndicator(true)},
+              success: (response) => {
+                loadingIndicator();
+
+                if(response['status'] == "success") {
+                  swal.fire({
+                        title: "Deletion Successful",
+                        text: response['message'],
+                        icon: "success"
+                    }).then((value) => {
+                       window.location.reload();
+                    });
+                } else {
+                  swal.fire({
+                    title: "Deletion unsuccessful",
+                    text: response['message'],
+                    icon: "error"
+                  });
+                }
+              },
+            });
+
+            console.log(ids);
+          }
+        }
+      ]
+    });
 
     $.fn.dataTable.ext.search.push(
       function(settings, data, dataIndex) {
@@ -54,6 +129,14 @@ $(document).ready(function() {
       if($(e).attr("type") != "reset") $(e).val("")
     })
     table.columns().search("").draw();
+  })
+
+  $(document).on("change", "#all_ids", function() {
+    var _this = $(this);
+    table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {    
+      var data = $(this.node()).find("input[type='checkbox']");  
+      data.prop("checked", _this.prop("checked"));
+    });
   })
 
 });
