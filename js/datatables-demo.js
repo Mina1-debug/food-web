@@ -12,7 +12,7 @@ $(document).ready(function() {
         {
           extend: 'print',
           text: "<i class='fa fa-file-pdf mx-2'></i><span style='font-weight: 600'>Print</span>",
-          autoPrint: false,
+          autoPrint: true,
           header: true,
           title: "Corner Inn",
           customize: function (win) {
@@ -21,6 +21,24 @@ $(document).ready(function() {
               textAlign: 'center',
               margin: "8px"
             });
+          },
+          exportOptions: {
+            rows: function ( idx, data, node ) {
+              var isChecked = $(node).find("input[type='checkbox']");
+              return isChecked.prop("checked");
+            }
+          }
+        },
+        {
+          extend: 'excel',
+          className: "btn-success",
+          title: "Corner Inn",
+          text: "<i class='fa fa-file-excel mx-2'></i><span style='font-weight: 600'>Excel</span>",
+          exportOptions: {
+            rows: function ( idx, data, node ) {
+              var isChecked = $(node).find("input[type='checkbox']");
+              return isChecked.prop("checked");
+            }
           }
         },
         {

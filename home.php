@@ -69,7 +69,7 @@ $payment_group = array_map(function($elem) {
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Datatable StyleSheet -->
-    <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
+    <link href="lib/datatables/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
 
     <!-- SweetAlert StyleSheet -->
     <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">

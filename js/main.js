@@ -18,7 +18,7 @@ $(document).ready(function () {
     })
 
 
-    $(document).on("click", "a[data-toggle='modal']", function (e) {
+    $(document).on("click", "button[data-toggle='modal'], a[data-toggle='modal']", function (e) {
         e.preventDefault();
         var _this = $(this);
         // var _target = _this.attr("data-target").replace("#", "").split("_");

@@ -25,14 +25,13 @@ if(!isset($_SESSION['user_details'])) {
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Datatable StyleSheet -->
-    <link href="lib/datatables/dataTables.bootstrap4.css" rel="stylesheet", type="text/css">
+    <link href="lib/datatables/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
 
     <!-- Datatable StyleSheet -->
     <link href="lib/sweetalert2/sweetalert2.css" rel="stylesheet", type="text/css">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-    <link href="lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 
 </head>
@@ -344,7 +343,13 @@ if(!isset($_SESSION['user_details'])) {
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- DataTables javaScript -->
-    <script src="lib/datatables/dataTables.bootstrap4.js"></script>
+    <script src="lib/datatables/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="lib/datatables/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="lib/datatables/buttons/js/dataTables.buttons.min.js"></script>
+    <script src="lib/datatables/buttons/js/buttons.print.min.js"></script>
+    <script src="lib/datatables/buttons/js/buttons.html5.min.js"></script>
+    <script src="lib/datatables/pdfmake/vfs_fonts.js"></script>
+    <script src="lib/datatables/jszip/jszip.min.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="lib/jquery-easing/jquery.easing.min.js"></script>
@@ -358,10 +363,6 @@ if(!isset($_SESSION['user_details'])) {
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="lib/chart.js/Chart.min.js"></script>
-    <script src="lib/datatables/jquery.dataTables.min.js"></script>
-    <script src="lib/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <!-- <script src="js/chart-area-demo.js"></script> -->

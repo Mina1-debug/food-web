@@ -226,48 +226,50 @@
             })
 
             $(document).on("click", ".btn-action", function (e) {
-        e.preventDefault();
-        var _this = $(this);
+                e.preventDefault();
+                var _this = $(this);
 
-        $.ajax({
-            url: "core/mina.php",
-            method: "post",
-            dataType: "json",
-            data: {
-                action: _this.attr("action-type"),
-                id: _this.attr("data")
-            },
-            error: (e) => {
-                $("#loader").fadeOut(800)
-                console.log(e);
-            },
-            beforeSend: () => {
-                $("#loader").fadeIn(800)
-            },
-            success: (response) => {
-                $("#loader").fadeOut(800)
-                // console.log(response);
-                if(response['status'] == "OK") {
+                $.ajax({
+                    url: "core/mina.php",
+                    method: "post",
+                    dataType: "json",
+                    data: {
+                        action: _this.attr("action-type"),
+                        id: _this.attr("data")
+                    },
+                    error: (e) => {
+                        $("#loader").fadeOut(800)
+                        console.log(e);
+                    },
+                    beforeSend: () => {
+                        $("#loader").fadeIn(800)
+                    },
+                    success: (response) => {
+                        $("#loader").fadeOut(800)
+                        // console.log(response);
+                        if(response['status'] == "OK") {
 
-                    if(_this.attr("action-type") == "logout") {
-                        swal.fire({
-                            title: "Logout successful",
-                            text: response['message'],
-                            icon: "success"
-                        }).then((value) => {
-                           window.location.reload();
-                        });
+                            if(_this.attr("action-type") == "logout") {
+                                swal.fire({
+                                    title: "Logout successful",
+                                    text: response['message'],
+                                    icon: "success"
+                                }).then((value) => {
+                                window.location.reload();
+                                });
+                            }
+                        } else {
+                            swal.fire({
+                                title: "Error Occured",
+                                text: response['message'],
+                                icon: "error"
+                            });
+                        }
                     }
-                } else {
-                    swal.fire({
-                        title: "Error Occured",
-                        text: response['message'],
-                        icon: "error"
-                    });
-                }
-            }
-        });
-    })
+                });
+            })
+
+            $("#loader").fadeOut(800)
         })
     </script>
     <h6>Powered by Perigee Insights</h6>

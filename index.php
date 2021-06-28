@@ -133,5 +133,7 @@ if(isset($_SESSION['user_details'])) {
                 }
             });
         })
+
+        $("#loader").fadeOut(800)
     });
 </script>
