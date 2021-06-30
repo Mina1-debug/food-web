@@ -230,6 +230,7 @@ table {
   line-height: 1.5;
   border-radius: 0.35rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  margin-bottom: 16px;
 }
 
 .dt-button:hover {
@@ -247,6 +248,21 @@ table {
   background-color: #e02d1b;
   border-color: #d52a1a;
 }
+
+#report_table_wrapper .dt-buttons {
+  float: left;
+}
+
+.report_table_filter {
+  float: right;
+}
+
+#report_table_wrapper table {
+  margin-top: 16px;
+}
+
+
+
 /* -button buttons-print */
 
 caption {

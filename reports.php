@@ -6,6 +6,31 @@ if(!isset($_SESSION['user_details'])) {
 } else {
     if($_SESSION['user_details']['role'] != "Admin") header("Location: index.php");
 }
+
+$report_data = [];
+$sql = mysqli_query($conn, "SELECT * FROM food_payment");
+while ($sale = mysqli_fetch_array($sql)) {
+    $food_item = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$sale['food_id']}'");
+    $food_item = mysqli_fetch_array($food_item);
+
+    $accompaniment_item = mysqli_query($conn, "SELECT * FROM accompaniment WHERE id = '{$sale['accompaniment_id']}'");
+    $accompaniment_item = mysqli_fetch_array($accompaniment_item);
+
+    $user = mysqli_query($conn, "SELECT * FROM users WHERE id = '{$sale['user_id']}'");
+    $user = mysqli_fetch_array($user);
+
+    array_push($report_data, (object)[
+        "id" => $sale['id'] ?? null,
+        "food_name" => $food_item['name'] ?? null,
+        "accompaniment_name" => $accompaniment_item['name'] ?? null,
+        "amount" => $sale['amount'] ?? null,
+        "buyer_name" => $sale['name'] ?? null,
+        "buyer_contact" => $sale['contact'] ?? null,
+        "handler_name" => ($user['first_name'] ?? null) . " " . ($user['last_name'] ?? null),
+        "date_created" => $sale['date_created'] ?? null
+    ]);
+  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,7 +121,7 @@ if(!isset($_SESSION['user_details'])) {
                                                         </label>
                                                     </div>
                                                     <select class="custom-select report-filter" name="user" table-column="user">
-                                                        <option value="">Choose...</option>
+                                                        <option value="">All</option>
                                                         <?php
                                                             $_users = mysqli_query($conn, "SELECT * FROM users");
                                                             while($users = mysqli_fetch_array($_users)) {
@@ -117,7 +142,7 @@ if(!isset($_SESSION['user_details'])) {
                                                                 class="fas fa-burger-soda text-gray-300"></i></label>
                                                     </div>
                                                     <select class="custom-select report-filter" name="food" table-column="food">
-                                                        <option value="">Choose...</option>
+                                                        <option value="">All</option>
                                                         <?php
                                                             $_food = mysqli_query($conn, "SELECT * FROM foods");
                                                             while($food = mysqli_fetch_array($_food)) {
@@ -133,7 +158,9 @@ if(!isset($_SESSION['user_details'])) {
                                         </div>
                                         <div class="row d-flex justify-content-end">
                                             <div class="col-lg-3 mb-3">
-                                                <input type="reset" class="btn btn-primary form-control report-filter" value="Reset">
+                                                <button type="reset" class="btn btn-primary form-control report-filter font-weight-bold">
+                                                    <i class="fa fa-undo"></i> Reset
+                                                </button>
                                             </div>
                                         </div>
                                     </form>
@@ -151,6 +178,11 @@ if(!isset($_SESSION['user_details'])) {
 
                             <div class="card shadow mb-4">
                                 <div class="card-body">
+                                    <div id="report_table_total" class="row mb-2 mr-4 d-flex justify-content-end">
+                                        <h3>Total Amount: <strong>GHS <span class="counter"><?= array_sum(array_map(function($e) {
+                                            return $e->amount;
+                                        },$report_data))?></span></strong></h3>
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="report_table" width="100%" cellspacing="0">
                                             <thead>
@@ -167,32 +199,22 @@ if(!isset($_SESSION['user_details'])) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                    $sql = mysqli_query($conn, "SELECT * FROM food_payment");
-                                                    while ($sale = mysqli_fetch_array($sql)) {
-                                                        $food_item = mysqli_query($conn, "SELECT * FROM foods WHERE id = '{$sale['food_id']}'");
-                                                        $food_item = mysqli_fetch_array($food_item);
+                                                <?php foreach ($report_data as $key => $report): ?>
+                                                
+                                                <tr>
+                                                   <td><input type="checkbox" name="report_items" value="<?= $report->id ?>"></td>
+                                                   <td><?= $report->id ?></td>
+                                                   <td><?= ($report->food_name  ?? '<i>Food item was deleted</i>') ?></td>
+                                                   <td><?= ($report->accompaniment_name  ?? '<i>Accompaniment was deleted</i>') ?></td>
+                                                   <td><?= $report->buyer_name ?></td>
+                                                   <td> <?= $report->buyer_contact ?></td>
+                                                   <td><?= $report->handler_name ?></td>
+                                                   <td><?= date_parser($report->date_created) ?></td>
+                                                   <td data-value="<?= $report->amount ?>">GHS <?= $report->amount ?></td>
+                                               </tr>
+                                                
+                                               <?php endforeach; ?>
 
-                                                        $accompaniment_item = mysqli_query($conn, "SELECT * FROM accompaniment WHERE id = '{$sale['accompaniment_id']}'");
-                                                        $accompaniment_item = mysqli_fetch_array($accompaniment_item);
-
-                                                        $user = mysqli_query($conn, "SELECT * FROM users WHERE id = '{$sale['user_id']}'");
-                                                        $user = mysqli_fetch_array($user);
-                                                        ?>
-                                                        <tr>
-                                                            <td><input type="checkbox" name="report_items" value="<?=$sale['id']?>"></td>
-                                                            <td><?=$sale['id']?></td>
-                                                            <td><?=($food_item['name']  ?? '<i>Food item was deleted</i>')?></td>
-                                                            <td><?=($accompaniment_item['name']  ?? '<i>Accompaniment was deleted</i>')?></td>
-                                                            <td><?=$sale['name']?></td>
-                                                            <td> <?=$sale['contact']?></td>
-                                                            <td><?=$user['first_name']?> <?=$user['last_name']?></td>
-                                                            <td><?=date_parser($sale['date_created'])?></td>
-                                                            <td>GHS <?=$sale['amount']?></td>
-                                                        </tr>
-                                                        <?php
-                                                    }
-                                                ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>

@@ -7,7 +7,7 @@ class Message  {
     public $strPassword = "P2cla!ms";
     public $strMessageType = '0';
     public $strDlr = '0';
-    public $strSender = 'Corner Inn';
+    public $strSender = 'Corner Inn'; //Food Factory
     public $strphone;
     public $strMessage;
     public $strname;

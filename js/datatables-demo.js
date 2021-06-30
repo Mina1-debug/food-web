@@ -7,6 +7,15 @@ $(document).ready(function() {
   try{
     $('#dataTable').DataTable();
     var table = $('#report_table').DataTable({
+      drawCallback: function( settings ) {
+        var count = 0;
+        $(this.api().rows({filter: 'applied'}).nodes()).each((i, e) => {
+          count = count + parseFloat($(e).find("td").last().attr("data-value"));
+        })
+        console.log(count);
+        $("#report_table_total .counter").text(count);
+
+      },
       dom: 'Bfrtip',
       buttons: [
         {
@@ -14,7 +23,7 @@ $(document).ready(function() {
           text: "<i class='fa fa-file-pdf mx-2'></i><span style='font-weight: 600'>Print</span>",
           autoPrint: true,
           header: true,
-          title: "Corner Inn",
+          title: "Food Factory",
           customize: function (win) {
             $(win.document.body).css('padding', '8px');
             $(win.document.body).find('h1').css({
@@ -32,7 +41,7 @@ $(document).ready(function() {
         {
           extend: 'excel',
           className: "btn-success",
-          title: "Corner Inn",
+          title: "Food Factory",
           text: "<i class='fa fa-file-excel mx-2'></i><span style='font-weight: 600'>Excel</span>",
           exportOptions: {
             rows: function ( idx, data, node ) {
@@ -101,12 +110,8 @@ $(document).ready(function() {
       function(settings, data, dataIndex) {
         var from_date = new Date($(".report-filter[name='date_from']").val());
         var to_date = new Date($(".report-filter[name='date_to']").val());
-        // 6nd column (5th index) in the report table (Date Created)
-        var date = new Date(data[5]);
-
-        // console.log("Index " + dataIndex);
-        // console.log("From " + from_date);
-        // console.log("To " + to_date);
+        // 8th column (7th index) in the report table (Date Created)
+        var date = new Date(data[7]);
 
         if(from_date == "Invalid Date" || to_date == "Invalid Date") {
           if(from_date == "Invalid Date" && to_date == "Invalid Date") {
@@ -135,10 +140,10 @@ $(document).ready(function() {
 
   $(document).on("change", ".report-filter", function () {
     table
-    // 5th column (4th index) in the report table (Added By)
-      .columns(4).search($(".report-filter[name='user']").val())
-    // 2nd column (1th index) in the report table (Food)
-      .columns(1).search($(".report-filter[name='food']").val())
+    // 7th column (6th index) in the report table (Added By)
+      .columns(6).search($(".report-filter[name='user']").val())
+    // 3rd column (2th index) in the report table (Food)
+      .columns(2).search($(".report-filter[name='food']").val())
       .draw();
   })
 
