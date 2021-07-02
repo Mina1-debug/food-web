@@ -663,6 +663,21 @@ if(isset($_POST['action'])) {
                 ]));
             }
 
+            $pattern = "/^(233|0)[0-9]{9}$/i";
+            if(!preg_match($pattern, $contact)) {
+                exit(json_encode([
+                    "status" => "error",
+                    "message" => "Contact can only be in the format 233xxxxxxxxx or 0xxxxxxxxx."
+                ]));
+            }
+
+            $pattern = "/^0[0-9]{9}$/i";
+            if(preg_match($pattern, $contact)) {
+                $_tmp = str_split($contact);
+                $_tmp[0] = "233";
+                $contact = implode("", $_tmp);
+            }
+
             $id = $_SESSION['user_details']['id'];
             $sql = mysqli_query($conn, "INSERT INTO food_payment (name, contact, amount, food_id, accompaniment_id, user_id) VALUES ('$name', '$contact', '$amount', '$food', '$accompaniment', '$id')");
             if($sql) {

@@ -184,6 +184,20 @@
                 var _formData = new FormData(this);
                 _formData.append("action", $(this).attr("action-type"))
 
+                if($(this).attr("action-type") == "food_payment") {
+                    var _contact = $(this).find("input[name='contact']").val().replace(/ /g, "");
+                    let check = new RegExp('^(233|0)[0-9]{9}$');
+
+                    if(!check.test(_contact)) {
+                        Swal.fire({
+                            title: "Invalid Contact",
+                            text: "Contact can only be in the format 233xxxxxxxxx or 0xxxxxxxxx",
+                            icon: "warning"
+                        });
+                        return false;                    
+                    }
+                }
+
                 $.ajax({
                     url: "core/mina.php",
                     method: "post",
